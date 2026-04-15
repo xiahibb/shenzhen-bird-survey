@@ -1,6 +1,7 @@
 # shenzhen-bird-survey
 深圳繁殖鸟类调查网页工具
 
+🌐 **在线体验地址**：[https://cbbssz.netlify.app/](https://cbbssz.netlify.app/)
 
 ## 许可证
 
