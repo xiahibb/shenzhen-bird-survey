@@ -1,0 +1,2906 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>深圳繁殖鸟类调查 · 倒计时版 · 数据概览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+            background: #f5f5f7;
+            color: #1c1c1e;
+            padding: 20px 16px 48px;
+            line-height: 1.4;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 34px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #1e3c2c, #2c5e3a);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 6px;
+        }
+        .sub {
+            font-size: 15px;
+            color: #6c6c70;
+            margin-bottom: 24px;
+            border-left: 3px solid #34c759;
+            padding-left: 14px;
+            font-weight: 400;
+            background: rgba(52,199,89,0.08);
+            border-radius: 8px;
+        }
+        .warning-bar {
+            background: #ff9500;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+        .global-card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            border: 0.5px solid rgba(224, 224, 230, 0.6);
+        }
+        .global-countdown-card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            border: 0.5px solid rgba(224, 224, 230, 0.6);
+        }
+        .global-countdown-card .countdown-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .global-countdown-card .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .global-countdown-card .field label {
+            font-size: 15px;
+            font-weight: 500;
+            color: #2c2c2e;
+        }
+        .global-countdown-card .field input {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 16px;
+            border-radius: 14px;
+            border: 0.5px solid #d1d1d6;
+            background: #ffffff;
+        }
+        .countdown-collapsed {
+            cursor: pointer;
+            transition: background 0.2s;
+            padding: 16px 0;
+            text-align: center;
+        }
+        .countdown-collapsed:hover {
+            background: rgba(0, 0, 0, 0.02);
+        }
+        .countdown-display-collapsed {
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            color: #1c5e2a;
+            background: #f0f4f0;
+            padding: 16px;
+            border-radius: 30px;
+            margin: 0 auto;
+            max-width: 300px;
+        }
+        @media (max-width: 560px) {
+            .countdown-display-collapsed {
+                font-size: 24px;
+                padding: 12px;
+            }
+        }
+        .global-card .form-row {
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .global-card .form-row label {
+            font-size: 15px;
+            font-weight: 500;
+            color: #2c2c2e;
+            margin-bottom: 6px;
+        }
+        .global-card .form-row input, .global-card .form-row select {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 17px;
+            border-radius: 14px;
+            border: 0.5px solid #d9d9df;
+            background: #ffffff;
+            transition: all 0.2s;
+        }
+        .global-card .form-row input:focus, .global-card .form-row select:focus {
+            outline: none;
+            border-color: #34c759;
+            box-shadow: 0 0 0 3px rgba(52,199,89,0.2);
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #34c759;
+            color: #1e3c2c;
+        }
+        .time-input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            width: 100%;
+        }
+        .time-input-wrapper input {
+            flex: 1;
+        }
+        .time-input-wrapper button {
+            white-space: nowrap;
+            padding: 12px 16px;
+            background: #e9e9ef;
+            border: none;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #007aff;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .time-input-wrapper button:active {
+            background: #d9d9df;
+            transform: scale(0.97);
+        }
+        .point-card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            border: 0.5px solid rgba(224, 224, 230, 0.6);
+        }
+        .point-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .point-title {
+            font-weight: 600;
+            font-size: 18px;
+            color: #1c5e2a;
+            background: #f9f9fb;
+            padding: 4px 16px;
+            border-radius: 32px;
+            display: inline-block;
+        }
+        .collapse-toggle, .countdown-collapse-toggle {
+            background: #e9e9ef;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #007aff;
+            cursor: pointer;
+            transition: 0.2s;
+            min-width: 48px;
+            min-height: 44px;
+        }
+        .collapse-toggle:active, .countdown-collapse-toggle:active {
+            background: #d9d9df;
+            transform: scale(0.96);
+        }
+        .delete-point {
+            background: #ff3b30;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .delete-point:active { transform: scale(0.96); }
+        .point-summary {
+            background: #f9f9fc;
+            border-radius: 18px;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #2c6e2c;
+            border: 0.5px solid #e5e5ea;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .point-summary:active {
+            background: #eef2ee;
+        }
+        .summary-stats {
+            display: flex;
+            gap: 16px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px dashed #ddd;
+        }
+        .summary-birds {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 12px;
+            font-size: 13px;
+            color: #4a6e4a;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        .summary-bird-item {
+            background: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            white-space: nowrap;
+        }
+        .collapsible-content {
+            transition: all 0.2s ease;
+        }
+        .point-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px 12px;
+            margin-bottom: 20px;
+        }
+        .point-info .field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .point-info .field label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #8e8e93;
+        }
+        .point-info .field input,
+        .point-info .field select {
+            padding: 12px 14px;
+            font-size: 16px;
+            border-radius: 14px;
+            border: 0.5px solid #d1d1d6;
+            background: #ffffff;
+            width: 100%;
+        }
+        .point-info .field input:focus,
+        .point-info .field select:focus {
+            outline: none;
+            border-color: #34c759;
+            box-shadow: 0 0 0 3px rgba(52,199,89,0.15);
+        }
+        .loc-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .loc-wrapper input { flex: 2; min-width: 140px; }
+        .loc-btn, .now-btn, .timer-btn {
+            background: #e9e9ef;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #007aff;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .loc-btn:active, .now-btn:active, .timer-btn:active {
+            background: #d9d9df;
+            transform: scale(0.97);
+        }
+        .loc-hint {
+            font-size: 11px;
+            color: #8e8e93;
+            margin-top: 6px;
+        }
+        .countdown-display {
+            margin-top: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            color: #1c5e2a;
+            background: #f0f4f0;
+            padding: 8px;
+            border-radius: 30px;
+        }
+        .countdown-btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .bird-records-container {
+            margin-top: 20px;
+            border-top: 1px solid #e9e9ef;
+            padding-top: 18px;
+        }
+        .bird-record {
+            background: #f9f9fc;
+            border-radius: 22px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 0.5px solid #efeff4;
+        }
+        .bird-record .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .bird-record .row .field {
+            flex: 1;
+            min-width: 140px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .bird-record .row .field label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #8e8e93;
+        }
+        .bird-record input,
+        .bird-record select {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 0.5px solid #d1d1d6;
+            background: white;
+            font-size: 16px;
+        }
+        .delete-bird {
+            background: #ff3b30;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 20px;
+            width: fit-content;
+        }
+        .delete-bird:active { transform: scale(0.96); }
+        .qty-wrapper {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .qty-wrapper input { flex: 2; min-width: 80px; }
+        .qty-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .qty-btn {
+            background: #e9e9ef;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #007aff;
+            cursor: pointer;
+        }
+        .qty-btn:active {
+            background: #cfcfd6;
+            transform: scale(0.95);
+        }
+        .time-wrapper {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .time-wrapper input { flex: 2; }
+        .add-bird-wrapper {
+            text-align: center;
+            margin-top: 8px;
+        }
+        .btn-sm {
+            background: #007aff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-sm:active {
+            background: #005fc9;
+            transform: scale(0.97);
+        }
+        .btn-outline-sm {
+            background: transparent;
+            border: 1px solid #007aff;
+            color: #007aff;
+            padding: 12px 20px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .btn-outline-sm:active {
+            background: rgba(0,122,255,0.1);
+            transform: scale(0.97);
+        }
+        .flex-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin: 20px 0 16px;
+        }
+        .footer-note {
+            font-size: 12px;
+            color: #8e8e93;
+            text-align: center;
+            margin-top: 28px;
+            line-height: 1.5;
+            background: rgba(0,0,0,0.03);
+            padding: 12px;
+            border-radius: 20px;
+        }
+        .autocomplete-container {
+            position: relative;
+            width: 100%;
+        }
+        .autocomplete-input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 0.5px solid #d1d1d6;
+            font-size: 16px;
+            background: white;
+        }
+        .autocomplete-items {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 240px;
+            overflow-y: auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            list-style: none;
+            padding: 6px 0;
+            margin: 6px 0 0;
+            z-index: 200;
+            border: 0.5px solid rgba(0,0,0,0.05);
+        }
+        .autocomplete-items li {
+            padding: 12px 18px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #1c1c1e;
+        }
+        .autocomplete-items li:hover,
+        .autocomplete-items li.autocomplete-active {
+            background-color: #e9f5ec;
+        }
+        .toast-notify {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.85);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 60px;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            z-index: 1000;
+            white-space: nowrap;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+        }
+        .toast-notify.show {
+            opacity: 1;
+        }
+
+        /* 新添加的数据概览卡片样式 */
+        .overview-card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            border: 0.5px solid rgba(224, 224, 230, 0.6);
+        }
+        .overview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .overview-title {
+            font-weight: 600;
+            font-size: 18px;
+            color: #1c5e2a;
+            background: #f9f9fb;
+            padding: 4px 16px;
+            border-radius: 32px;
+            display: inline-block;
+        }
+        .overview-toggle {
+            background: #e9e9ef;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #007aff;
+            cursor: pointer;
+            transition: 0.2s;
+            min-width: 48px;
+            min-height: 44px;
+        }
+        .overview-toggle:active {
+            background: #d9d9df;
+            transform: scale(0.96);
+        }
+        .overview-content {
+            transition: all 0.2s ease;
+        }
+        .overview-summary {
+            background: #f9f9fc;
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #2c6e2c;
+            border: 0.5px solid #e5e5ea;
+        }
+        .overview-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .overview-stat-item {
+            background: white;
+            padding: 12px;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 0.5px solid #efeff4;
+        }
+        .overview-stat-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #8e8e93;
+            margin-bottom: 4px;
+        }
+        .overview-stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1c5e2a;
+        }
+
+        /* 可点击统计项样式 */
+        .clickable-stat {
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .clickable-stat:hover {
+            color: #007aff;
+            transform: translateY(-1px);
+        }
+        .clickable-stat::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #007aff;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .clickable-stat:hover::after {
+            opacity: 0.5;
+        }
+        .habitat-stats {
+            margin-top: 16px;
+        }
+        .habitat-stats-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2c2c2e;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e9e9ef;
+        }
+        .habitat-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+        }
+        .habitat-stat-item {
+            background: #f9f9fc;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 0.5px solid #e5e5ea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .habitat-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #2c6e2c;
+        }
+        .habitat-count {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1c5e2a;
+            background: white;
+            padding: 2px 10px;
+            border-radius: 20px;
+            min-width: 36px;
+            text-align: center;
+        }
+
+        /* 防止元素溢出卡片 */
+        .container, .global-card, .point-card, .overview-card {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+        .point-info, .bird-record .row, .loc-wrapper, .qty-wrapper, .time-wrapper {
+            max-width: 100%;
+        }
+        input, select, button, .autocomplete-input {
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        .autocomplete-items {
+            max-width: 100vw;
+            left: 0;
+            right: 0;
+        }
+        .time-input-wrapper, .countdown-wrapper {
+            max-width: 100%;
+        }
+        .time-input-wrapper input, .countdown-minutes {
+            max-width: 100%;
+        }
+
+        /* iPad 竖屏优化 */
+        @media (max-width: 768px) {
+            .container { max-width: 100%; }
+            .global-card, .point-card, .overview-card {
+                padding: 18px;
+                margin-bottom: 18px;
+            }
+            .point-info {
+                gap: 16px;
+            }
+            .bird-record .row {
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 560px) {
+            body { padding: 14px 12px 40px; }
+            .point-info { grid-template-columns: 1fr; gap: 14px; }
+            .bird-record .row .field { min-width: 100%; }
+            .loc-wrapper { flex-direction: column; align-items: stretch; }
+            .loc-btn { text-align: center; }
+            .qty-wrapper { flex-direction: column; align-items: stretch; }
+            .qty-group { justify-content: space-between; }
+            .time-wrapper { flex-wrap: wrap; }
+            .time-wrapper .now-btn { width: 100%; text-align: center; }
+            .btn-sm, .btn-outline-sm { flex: 1; justify-content: center; }
+            .point-summary { flex-direction: column; align-items: flex-start; }
+            .summary-birds { max-height: 100px; overflow-x: hidden; }
+            .summary-bird-item { white-space: normal; word-break: break-word; }
+            .toast-notify { font-size: 14px; white-space: normal; width: 80%; text-align: center; }
+            .overview-stats { grid-template-columns: 1fr 1fr; }
+            .habitat-stats-grid { grid-template-columns: 1fr; }
+            .footer-note {
+                font-size: 11px;
+                line-height: 1.6;
+                padding: 12px 10px;
+                text-align: center;
+            }
+        }
+
+        /* 针对更小的手机屏幕，如iPhone 13mini (375px) */
+        @media (max-width: 400px) {
+            body { padding: 12px 10px 36px; }
+            .container { max-width: 100%; padding: 0 8px; }
+            .global-card, .point-card, .overview-card {
+                padding: 16px;
+                margin-bottom: 16px;
+                border-radius: 20px;
+            }
+            .section-title { font-size: 16px; }
+            .point-title, .overview-title { font-size: 16px; padding: 4px 12px; }
+            .point-info .field input,
+            .point-info .field select,
+            .bird-record input,
+            .bird-record select,
+            .autocomplete-input {
+                padding: 10px 12px;
+                font-size: 15px;
+                border-radius: 12px;
+            }
+            .time-input-wrapper input,
+            .global-card .form-row input,
+            .global-card .form-row select {
+                padding: 12px 14px;
+                font-size: 16px;
+            }
+            .countdown-display {
+                font-size: 16px;
+                padding: 6px;
+            }
+            .btn-sm, .btn-outline-sm {
+                padding: 10px 16px;
+                font-size: 14px;
+                border-radius: 36px;
+            }
+            .flex-btns {
+                gap: 10px;
+                margin: 16px 0 12px;
+            }
+            .point-header {
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-items: center;
+                gap: 8px;
+            }
+            .point-header .collapse-toggle,
+            .point-header .delete-point {
+                width: auto;
+                text-align: center;
+            }
+            .point-header .point-title {
+                order: 1;
+                flex: 0 1 auto;
+            }
+            .point-header .delete-point {
+                order: 2;
+                flex: 0 0 auto;
+            }
+            .point-header .collapse-toggle {
+                order: 3;
+                flex: 0 0 auto;
+            }
+            .point-header .delete-point,
+            .point-header .collapse-toggle {
+                padding: 6px 12px;
+                font-size: 14px;
+                white-space: nowrap;
+            }
+            .point-header .point-title {
+                font-size: 16px;
+                padding: 4px 10px;
+                white-space: nowrap;
+            }
+            .habitat-stats-grid,
+            .overview-stats {
+                grid-template-columns: 1fr;
+            }
+            .bird-detail-list,
+            .habitat-breakdown-grid {
+                grid-template-columns: 1fr;
+            }
+            .modal-container {
+                width: 95%;
+                border-radius: 20px;
+            }
+            .modal-header {
+                padding: 18px;
+            }
+            .modal-title {
+                font-size: 18px;
+            }
+            .modal-content {
+                padding: 18px;
+            }
+        }
+
+        /* 针对超小屏幕，如iPhone SE (320px) */
+        @media (max-width: 350px) {
+            body { padding: 10px 8px 32px; }
+            h1 { font-size: 28px; }
+            .sub { font-size: 14px; }
+            .global-card, .point-card, .overview-card {
+                padding: 14px;
+                margin-bottom: 14px;
+                border-radius: 18px;
+            }
+            .point-info .field input,
+            .point-info .field select,
+            .bird-record input,
+            .bird-record select,
+            .autocomplete-input {
+                padding: 9px 10px;
+                font-size: 14px;
+            }
+            .btn-sm, .btn-outline-sm {
+                padding: 9px 14px;
+                font-size: 13px;
+            }
+            .point-header {
+                gap: 6px;
+            }
+            .point-header .delete-point,
+            .point-header .collapse-toggle {
+                padding: 5px 10px;
+                font-size: 13px;
+            }
+            .countdown-display {
+                font-size: 15px;
+            }
+            .footer-note {
+                font-size: 11px;
+                padding: 10px;
+            }
+        }
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238e8e93' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 14px;
+        }
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            opacity: 0.5;
+        }
+
+        /* 鸟种详情模态框样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-container {
+            background: white;
+            border-radius: 32px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 0.5px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.show .modal-container {
+            transform: translateY(0);
+        }
+        .modal-header {
+            background: linear-gradient(135deg, #1e3c2c, #2c5e3a);
+            color: white;
+            padding: 24px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+        .modal-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .modal-content {
+            padding: 28px;
+            overflow-y: auto;
+            max-height: calc(85vh - 120px);
+        }
+        .bird-summary-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1c5e2a;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #34c759;
+        }
+        .bird-summary-stats {
+            display: flex;
+            justify-content: space-between;
+            background: #f9f9fc;
+            padding: 16px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+            border: 0.5px solid #e5e5ea;
+        }
+        .bird-breeding-stats {
+            display: flex;
+            justify-content: space-between;
+            background: #f9f9fc;
+            padding: 16px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+            border: 0.5px solid #e5e5ea;
+        }
+        .bird-breeding-stat {
+            text-align: center;
+            flex: 1;
+        }
+        .bird-breeding-stat-label {
+            font-size: 13px;
+            color: #8e8e93;
+            margin-bottom: 6px;
+        }
+        .bird-breeding-stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1c5e2a;
+        }
+        .bird-summary-stat {
+            text-align: center;
+            flex: 1;
+        }
+        .bird-summary-stat-label {
+            font-size: 13px;
+            color: #8e8e93;
+            margin-bottom: 6px;
+        }
+        .bird-summary-stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1c5e2a;
+        }
+        .bird-detail-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .bird-detail-item {
+            background: #f9f9fc;
+            border-radius: 20px;
+            padding: 18px;
+            border: 0.5px solid #e5e5ea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .bird-detail-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+        .bird-detail-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1c1c1e;
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+        }
+        .bird-evidence-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .bird-evidence-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            background: #e9e9ef;
+            color: #2c2c2e;
+        }
+        .bird-evidence-tag.tag-confirmed {
+            background: #34c759;
+            color: white;
+        }
+        .bird-evidence-tag.tag-probable {
+            background: #ffcc00;
+            color: #1c1c1e;
+        }
+        .bird-evidence-tag.tag-flyover {
+            background: #8e8e93;
+            color: white;
+        }
+        .bird-detail-count {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1c5e2a;
+            background: white;
+            padding: 6px 16px;
+            border-radius: 30px;
+            min-width: 60px;
+            text-align: center;
+        }
+        .bird-habitat-breakdown {
+            margin-top: 28px;
+        }
+        .habitat-breakdown-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c2c2e;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e9e9ef;
+        }
+        .habitat-breakdown-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        .habitat-breakdown-item {
+            background: #f9f9fc;
+            border-radius: 18px;
+            padding: 16px;
+            border: 0.5px solid #e5e5ea;
+        }
+        .habitat-breakdown-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1c5e2a;
+            margin-bottom: 8px;
+        }
+        .habitat-breakdown-birds {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .habitat-bird-item {
+            background: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #4a6e4a;
+            border: 0.5px solid #e5e5ea;
+            display: inline-block;
+        }
+        .habitat-expand-btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 12px;
+            background: transparent;
+            border: 1px solid #007aff;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #007aff;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .habitat-expand-btn:active {
+            background: rgba(0, 122, 255, 0.1);
+        }
+        .habitat-bird-item.hidden-bird {
+            display: none;
+        }
+
+        @media (max-width: 560px) {
+            .modal-container {
+                width: 95%;
+                border-radius: 24px;
+            }
+            .modal-header {
+                padding: 20px;
+            }
+            .modal-title {
+                font-size: 20px;
+            }
+            .modal-content {
+                padding: 20px;
+            }
+            .bird-detail-list {
+                grid-template-columns: 1fr;
+            }
+            .bird-summary-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .bird-breeding-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .habitat-breakdown-grid {
+                grid-template-columns: 1fr;
+            }
+            .bird-evidence-tag {
+                font-size: 10px;
+                padding: 1px 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="storageWarning" class="warning-bar">
+        <i>⚠️</i> 当前为隐私/无痕模式，数据无法保存。请关闭无痕模式后刷新页面。
+    </div>
+    <h1>🐦 繁殖鸟类调查</h1>
+    <div class="sub">深圳地区 · 倒计时版 | 网格/样点/鸟种</div>
+
+    <!-- 网格信息卡片，添加标题 -->
+    <div class="global-card">
+        <div class="global-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div class="section-title" style="margin-bottom: 0; padding-bottom: 0; border-bottom: none;">📋 网格信息</div>
+            <button class="collapse-toggle global-collapse-toggle">▲</button>
+        </div>
+        <div class="global-expanded">
+            <div class="form-row">
+                <label>📝 全局备注</label>
+                <input type="text" id="globalRemark" placeholder="整体情况说明（例如天气趋势、栖息地概况）">
+            </div>
+            <div class="form-row">
+                <label>📌 网格编号</label>
+                <input type="text" id="gridCode" placeholder="例如：G01">
+            </div>
+            <div class="form-row">
+                <label>📅 调查日期</label>
+                <input type="date" id="surveyDate">
+            </div>
+            <div class="form-row">
+                <label>⏱️ 调查开始时间</label>
+                <div class="time-input-wrapper">
+                    <input type="time" id="gridStartTime" placeholder="--:--">
+                    <button id="setGridStartNowBtn">现在</button>
+                </div>
+            </div>
+            <div class="form-row">
+                <label>🔍 调查人</label>
+                <input type="text" id="surveyor" placeholder="姓名">
+            </div>
+            <div class="form-row">
+                <label>📝 记录人</label>
+                <input type="text" id="recorder" placeholder="姓名">
+            </div>
+        </div>
+        <div class="global-collapsed" style="display: none;">
+            <div class="global-summary-text" style="background: #f9f9fc; padding: 12px 16px; border-radius: 18px; font-size: 14px; color: #2c6e2c; border: 0.5px solid #e5e5ea;">
+                <span id="globalSummaryGrid">—</span> |
+                <span id="globalSummarySurveyor">—</span> |
+                <span id="globalSummaryRecorder">—</span> |
+                <span id="globalSummaryDate">—</span> |
+                <span id="globalSummaryTime">—</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="pointsContainer"></div>
+
+    <div class="global-countdown-card">
+        <div class="countdown-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div class="section-title" style="margin-bottom: 0; padding-bottom: 0; border-bottom: none;">⏱️ 样点调查倒计时</div>
+            <button class="countdown-collapse-toggle">▲</button>
+        </div>
+        <div class="countdown-expanded">
+            <div class="countdown-controls">
+                <div class="field">
+                    <label>设置分钟数</label>
+                    <input type="number" id="globalCountdownMinutes" value="13" min="0" step="1">
+                </div>
+                <div class="countdown-btn-group">
+                    <button class="timer-btn" id="globalCountdownToggleBtn">开始倒计时</button>
+                    <button class="timer-btn" id="globalCountdownRestartBtn" style="display: none;">重新开始</button>
+                </div>
+                <div class="countdown-display" id="globalCountdownDisplay">⏱️ 剩余时间：--:--</div>
+            </div>
+        </div>
+        <div class="countdown-collapsed" style="display: none;">
+            <div class="countdown-display-collapsed" id="globalCountdownDisplayCollapsed">⏱️ 剩余时间：--:--</div>
+        </div>
+    </div>
+
+    <div class="flex-btns">
+        <button class="btn-sm" id="addPointBtn">➕ 添加样点</button>
+        <button class="btn-sm" id="exportBtn">📎 导出 CSV</button>
+        <button class="btn-sm" id="backupBtn">💾 备份数据</button>
+        <button class="btn-outline-sm" id="restoreBtn">📂 恢复数据</button>
+        <button class="btn-outline-sm" id="clearAllBtn">🗑️ 清空所有</button>
+    </div>
+
+    <!-- 新添加的数据概览卡片 -->
+    <div class="overview-card">
+        <div class="overview-header">
+            <div class="overview-title">📊 数据概览</div>
+            <button class="overview-toggle">▼</button>
+        </div>
+        <div class="overview-summary" style="display: flex; flex-direction: column;">
+            <div style="font-size: 12px; color: #6c8f6c; margin-bottom: 6px;">📈 点击上方按钮展开/折叠详细数据</div>
+        </div>
+        <div class="overview-content" style="display: none;">
+            <div class="overview-stats">
+                <div class="overview-stat-item">
+                    <div class="overview-stat-label">总样点数</div>
+                    <div class="overview-stat-value" id="totalPointsCount">0</div>
+                </div>
+                <div class="overview-stat-item">
+                    <div class="overview-stat-label">总鸟种数（去重）</div>
+                    <div class="overview-stat-value" id="totalBirdSpeciesCount">0</div>
+                </div>
+                <div class="overview-stat-item">
+                    <div class="overview-stat-label">总数量</div>
+                    <div class="overview-stat-value" id="totalBirdCount">0</div>
+                </div>
+                <div class="overview-stat-item">
+                    <div class="overview-stat-label">总生境数</div>
+                    <div class="overview-stat-value" id="totalHabitatCount">0</div>
+                </div>
+            </div>
+            <div class="habitat-stats">
+                <div class="habitat-stats-title">🌾 按生境统计的样点数量</div>
+                <div class="habitat-stats-grid" id="habitatStatsGrid">
+                    <!-- 生境统计将动态插入这里 -->
+                </div>
+            </div>
+            <div style="margin-top: 20px; text-align: center;">
+                <button class="btn-outline-sm" id="viewBirdDetailFromOverviewBtn" style="width: auto; padding: 10px 24px;">🐦 查看鸟种详细汇总 →</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-note" id="footerNote">
+        方便计时 · 鸟种快录 · 字母识鸟<br>
+        快速定位 · 数据汇总 · 繁殖统计<br>
+        鸟种名录来源于深圳观鸟协会<br>
+        调查方法基于CBBS调查规范<br>
+        数据都在你手机 · 及时导出备份<br>
+        © 2026 阿彬 · BA7KHK<br>
+        <span id="footerSaveTime">最后保存 —</span>
+    </div>
+</div>
+
+<div id="toastMessage" class="toast-notify">计时结束，请前往下一个样点</div>
+
+<!-- 鸟种详情模态框 -->
+<div id="birdDetailModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <div class="modal-title">🐦 鸟种详细汇总</div>
+            <button class="modal-close" id="closeBirdDetailModal">×</button>
+        </div>
+        <div class="modal-content" id="birdDetailContent">
+            <!-- 内容将通过JavaScript动态生成 -->
+            <div class="bird-summary-title">所有样点的鸟种统计</div>
+            <div class="bird-summary-stats">
+                <div class="bird-summary-stat">
+                    <div class="bird-summary-stat-label">总鸟种数</div>
+                    <div class="bird-summary-stat-value" id="modalTotalSpecies">0</div>
+                </div>
+                <div class="bird-summary-stat">
+                    <div class="bird-summary-stat-label">总数量</div>
+                    <div class="bird-summary-stat-value" id="modalTotalCount">0</div>
+                </div>
+                <div class="bird-summary-stat">
+                    <div class="bird-summary-stat-label">涉及样点</div>
+                    <div class="bird-summary-stat-value" id="modalTotalPoints">0</div>
+                </div>
+            </div>
+            <div class="bird-breeding-stats">
+                <div class="bird-breeding-stat">
+                    <div class="bird-breeding-stat-label">🐣 确定繁殖</div>
+                    <div class="bird-breeding-stat-value" id="modalConfirmedBreeding">0</div>
+                </div>
+                <div class="bird-breeding-stat">
+                    <div class="bird-breeding-stat-label">🌿 可能繁殖</div>
+                    <div class="bird-breeding-stat-value" id="modalProbableBreeding">0</div>
+                </div>
+                <div class="bird-breeding-stat">
+                    <div class="bird-breeding-stat-label">👀 飞过/仅听见</div>
+                    <div class="bird-breeding-stat-value" id="modalFlyoverHeard">0</div>
+                </div>
+            </div>
+            <div class="bird-detail-list" id="birdDetailList">
+                <!-- 鸟种列表将在这里动态生成 -->
+            </div>
+            <div class="bird-habitat-breakdown" id="habitatBreakdownSection">
+                <div class="habitat-breakdown-title">🌾 按生境统计的鸟种分布</div>
+                <div class="habitat-breakdown-grid" id="habitatBreakdownGrid">
+                    <!-- 生境分布将在这里动态生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    /*
+     * 本工具由民间志愿者 阿彬 开发，仅供野外调查辅助使用。
+     * 非官方系统，请勿用于商业用途或冒名发布。
+     * 源代码开放可查看，但版权归作者所有，保留署名权。
+     */
+    // ---------- 鸟种清单 ----------
+    const birdList = [
+        "中华鹧鸪","鹌鹑","栗树鸭","小天鹅","翘鼻麻鸭","棉凫","赤膀鸭","罗纹鸭","赤颈鸭","绿眉鸭","绿头鸭","斑嘴鸭","琵嘴鸭","针尾鸭","白眉鸭","花脸鸭","绿翅鸭","红头潜鸭","白眼潜鸭","凤头潜鸭","斑背潜鸭","长尾鸭","斑脸海番鸭","白秋沙鸭","红胸秋沙鸭","中华秋沙鸭","黄脚三趾鹑","棕三趾鹑","蚁鴷","斑姬啄木鸟","黄嘴栗啄木鸟","大拟啄木鸟","黑眉拟啄木鸟","戴胜","三宝鸟","普通翠鸟","白胸翡翠","蓝翡翠","斑鱼狗","栗喉蜂虎","红翅凤头鹃","鹰鹃","北鹰鹃","四声杜鹃","大杜鹃","中杜鹃","小杜鹃","八声杜鹃","乌鹃","噪鹃","褐翅鸦鹃","小鸦鹃","红领绿鹦鹉","短嘴金丝燕","白喉针尾雨燕","白腰雨燕","小白腰雨燕","草鸮","黄嘴角鸮","红角鸮","领角鸮","雕鸮","褐渔鸮","褐林鸮","领鸺鹠","斑头鸺鹠","鹰鸮","短耳鸮","普通夜鹰","林夜鹰","山斑鸠","珠颈斑鸠","火斑鸠","灰斑鸠","斑尾鹃鸠","绿翅金鸠","厚嘴绿鸠","白喉斑秧鸡","蓝胸秧鸡","红脚苦恶鸟","白胸苦恶鸟","小田鸡","红胸田鸡","董鸡","紫水鸡","黑水鸡","骨顶鸡","丘鹬","针尾沙锥","大沙锥","扇尾沙锥","黑尾塍鹬","斑尾塍鹬","小杓鹬","中杓鹬","白腰杓鹬","大杓鹬","鹤鹬","红脚鹬","泽鹬","青脚鹬","小青脚鹬","白腰草鹬","林鹬","翘嘴鹬","矶鹬","灰尾漂鹬","翻石鹬","长嘴鹬","半蹼鹬","大滨鹬","红腹滨鹬","三趾滨鹬","勺嘴鹬","小滨鹬","红颈滨鹬","青脚滨鹬","长趾滨鹬","斑胸滨鹬","尖尾滨鹬","黑腹滨鹬","弯嘴滨鹬","阔嘴鹬","流苏鹬","红颈瓣蹼鹬","彩鹬","水雉","黑翅长脚鹬","反嘴鹬","金斑鸻","灰斑鸻","剑鸻","长嘴剑鸻","金眶鸻","环颈鸻","蒙古沙鸻","铁嘴沙鸻","东方鸻","凤头麦鸡","灰头麦鸡","普通燕鸻","短尾贼鸥","长尾贼鸥","黑尾鸥","海鸥","乌灰银鸥","西伯利亚银鸥","渔鸥","棕头鸥","红嘴鸥","细嘴鸥","黑嘴鸥","鸥嘴噪鸥","红嘴巨鸥","大凤头燕鸥","粉红燕鸥","黑枕燕鸥","普通燕鸥","白额燕鸥","白腰燕鸥","褐翅燕鸥","乌燕鸥","须浮鸥","白翅浮鸥","扁嘴海雀","鹗","黑冠鹃隼","凤头蜂鹰","黑翅鸢","黑鸢","黑耳鸢","白腹海雕","蛇雕","白腹鹞","鹊鹞","凤头鹰","赤腹鹰","日本松雀鹰","松雀鹰","雀鹰","苍鹰","灰脸鵟鹰","乌雕","白肩雕","白腹隼雕","鹰雕","红隼","红脚隼","燕隼","游隼","小䴙䴘","凤头䴙䴘","黑颈䴙䴘","红脚鲣鸟","普通鸬鹚","海鸬鹚","白鹭","黄嘴白鹭","岩鹭","苍鹭","草鹭","大白鹭","中白鹭","牛背鹭","池鹭","绿鹭","夜鹭","黑冠鳽","黄苇鳽","紫背苇鳽","栗苇鳽","黑鳽","大麻鳽","黑头白鹮","白琵鹭","黑脸琵鹭","卷羽鹈鹕","黑鹳","东方白鹳","白斑军舰鸟","红喉潜鸟","短尾鹱","仙八色鸫","蓝翅八色鸫","橙腹叶鹎","虎纹伯劳","牛头伯劳","红尾伯劳","棕背伯劳","楔尾伯劳","松鸦","红嘴蓝鹊","灰喜鹊","灰树鹊","喜鹊","大嘴乌鸦","白颈鸦","黑枕黄鹂","暗灰鹃鵙","小灰山椒鸟","灰山椒鸟","灰喉山椒鸟","赤红山椒鸟","黑卷尾","灰卷尾","发冠卷尾","黑枕王鹟","紫寿带","寿带","白喉矶鸫","栗腹矶鸫","蓝矶鸫","紫啸鸫","橙头地鸫","白眉地鸫","怀氏虎鸫","灰背鸫","乌灰鸫","欧乌鸫","白眉鸫","白腹鸫","赤胸鸫","红尾鸫","宝兴歌鸫","白喉短翅鸫","白喉林鹟","灰纹鹟","乌鹟","北灰鹟","褐胸鹟","棕尾褐鹟","白眉姬鹟","黄眉姬鹟","鸲姬鹟","橙胸姬鹟","红喉姬鹟","白腹蓝鹟","铜蓝鹟","小仙鹟","棕腹大仙鹟","海南蓝仙鹟","方尾鹟","日本歌鸲","红尾歌鸲","红喉歌鸲","蓝喉歌鸲","蓝歌鸲","红胁蓝尾鸲","鹊鸲","北红尾鸲","红尾水鸲","白尾蓝地鸲","灰背燕尾","黑喉石鵖","灰林鵖","丝光椋鸟","北椋鸟","紫背椋鸟","灰背椋鸟","粉红椋鸟","紫翅椋鸟","灰椋鸟","黑领椋鸟","八哥","绒额䴓","鹪鹩","中华攀雀","大山雀","黄颊山雀","杂色山雀","淡色沙燕","家燕","金腰燕","白腹毛脚燕","烟腹毛脚燕","红耳鹎","白头鹎","白喉红臀鹎","栗背短脚鹎","绿翅短脚鹎","黑短脚鹎","棕扇尾莺","金头扇尾莺","黄腹山鹪莺","纯色山鹪莺","红胁绣眼鸟","暗绿绣眼鸟","鳞头树莺","远东树莺","日本树莺","强脚树莺","北短翅莺","高山短翅莺","矛斑蝗莺","小蝗莺","黑眉苇莺","远东苇莺","东方大苇莺","厚嘴苇莺","金头缝叶莺","长尾缝叶莺","褐柳莺","棕腹柳莺","巨嘴柳莺","黄腰柳莺","黄眉柳莺","极北柳莺","双斑绿柳莺","淡脚柳莺","冕柳莺","冠纹柳莺","黑眉柳莺","金眶鹟莺","栗头鹟莺","棕脸鹟莺","大草莺","黑脸噪鹛","黑领噪鹛","黑喉噪鹛","画眉","白颊噪鹛","棕颈钩嘴鹛","小鳞胸鹪鹛","红头穗鹛","矛纹草鹛","银耳相思鸟","红嘴相思鸟","蓝翅希鹛","台湾雀鹛","栗耳凤鹛","白腹凤鹛","棕头鸦雀","大短趾百灵","云雀","小云雀","纯色啄花鸟","红胸啄花鸟","朱背啄花鸟","蓝喉太阳鸟","叉尾太阳鸟","山麻雀","麻雀","山鹡鸰","白鹡鸰","黄头鹡鸰","黄鹡鸰","灰鹡鸰","理氏鹨","树鹨","北鹨","红喉鹨","黄腹鹨","山鹨","白腰文鸟","斑文鸟","燕雀","金翅雀","黄雀","普通朱雀","黑尾蜡嘴雀","凤头鹀","白眉鹀","栗耳鹀","小鹀","黄眉鹀","田鹀","黄喉鹀","黄胸鹀","栗鹀","黑头鹀","硫磺鹀","灰头鹀","苇鹀","不确定鹭类","不确定水鸟","灰冠鹟莺","蒙古银鸥","绿背姬鹟","霍氏鹰鹃","远东山雀","库页岛柳莺","栗颈凤鹛","东亚石鵖","红胸姬鹟","普通鵟","普通秧鸡","乌鸫",
+        "鸿雁","林鸳鸯","石鸡","灰胸竹鸡","白鹇","雉鸡","白鹈鹕","姬地鸠","斑姬地鸠","绿嘴地鹃","翠金鹃","仓鸮","蓝喉拟啄木鸟","大斑啄木鸟","棕树凤头鹦鹉","戈氏凤头鹦鹉","白凤头鹦鹉","橙冠凤头鹦鹉","鸡尾鹦鹉","红鹦鹉","彩虹鹦鹉","噪鹦鹉","虎皮鹦鹉","红胁绿鹦鹉","花头鹦鹉","大紫胸鹦鹉","绯胸鹦鹉","桃脸牡丹鹦鹉","费氏牡丹鹦鹉","小金刚鹦鹉","金黄鹦哥","斑点鹦哥","蓝脸吸蜜鸟","栗背伯劳","黑头黄鹂","白喉扇尾鹟","绿蓝鸦","印支绿鹊","太平鸟","煤山雀","沼泽山雀","绿背山雀","文须雀","歌百灵","白翅百灵","凤头百灵","角百灵","[蒙古]百灵","领雀嘴鹎","黄臀鹎","白眉黄臀鹎","银喉[长尾]山雀","金头穗鹛","红顶鹛","灰翅噪鹛","白喉噪鹛","小黑领噪鹛","棕噪鹛","橙翅噪鹛","丽色噪鹛","赤尾噪鹛","火尾希鹛","红翅薮鹛","金眼鹛雀","灰喉鸦雀","灰头鸦雀","白领凤鹛","普通鳾","鹩哥","林八哥","爪哇八哥","丛林八哥","灰背岸八哥","黑翅椋鸟","红嘴椋鸟","斑椋鸟","紫辉椋鸟","粟头丽椋鸟","紫宽嘴鸫","白腰鹊鸲","纯蓝仙鹟","棕腹仙鹟","棕腹蓝仙鹟","棕胸蓝[姬]鹟","白眉蓝[姬]鹟","蓝额红尾鸲","白顶溪鸲","白斑黑石鵖","蓝翅叶鹎","金额叶鹎","紫颊直嘴太阳鸟","黑胸太阳鸟","纹胸织雀","黄顶巧织雀","红巧织雀","橙颊梅花雀","黑腰梅花雀","[红]梅花雀","黑头文鸟","白头文鸟","禾雀","针尾维达雀","北朱雀","白腰丝雀","黄额丝雀","黄嘴朱顶雀","红额金翅[雀]","灰眉岩鹀","三道眉草鹀","灰颈鹀","冠蜡嘴鹀"
+    ];
+    const uniqueBirds = [...new Set(birdList)].sort((a,b) => a.localeCompare(b, 'zh'));
+
+    // 拼音首字母映射表（完整，因篇幅仅展示开头，实际代码中包含完整映射）
+        const pinyinFirstLetterMap = {
+        "鹌":"A","岸":"A","暗":"A","八":"B","白":"B","百":"B","斑":"B","半":"B","瓣":"B","膀":"B",
+        "宝":"B","鹎":"B","北":"B","背":"B","本":"B","鵖":"B","鼻":"B","扁":"B","杓":"S","滨":"B",
+        "伯":"B","不":"B","彩":"C","仓":"C","苍":"C","草":"C","叉":"C","塍":"C","橙":"C","池":"C",
+        "赤":"C","翅":"C","纯":"C","鹑":"C","鹚":"C","丛":"C","翠":"C","达":"D","大":"D","带":"D",
+        "戴":"D","丹":"D","淡":"D","岛":"D","道":"D","地":"D","点":"D","雕":"D","顶":"D","定":"D",
+        "东":"D","鸫":"D","董":"D","杜":"D","短":"D","鹅":"E","额":"E","恶":"E","鹗":"E","耳":"E",
+        "发":"F","番":"F","翻":"F","反":"F","方":"F","绯":"F","翡":"F","费":"F","粉":"F","蜂":"F",
+        "凤":"F","缝":"F","凫":"F","浮":"F","腹":"F","刚":"G","高":"G","戈":"G","哥":"G","歌":"G",
+        "钩":"G","狗":"G","鸪":"G","古":"G","骨":"G","冠":"G","鹳":"G","光":"G","海":"H","禾":"H",
+        "褐":"H","鹤":"H","黑":"H","鸻":"H","红":"H","虹":"H","鸿":"H","喉":"H","厚":"H","鹕":"H",
+        "虎":"H","鹱":"H","花":"H","华":"H","画":"H","怀":"H","环":"H","鹮":"H","黄":"H","蝗":"H",
+        "磺":"H","灰":"H","辉":"H","火":"H","霍":"H","矶":"J","鸡":"J","姬":"J","极":"J","鹡":"J",
+        "家":"J","颊":"J","尖":"J","肩":"J","鲣":"J","鳽":"J","剑":"J","舰":"J","椒":"J","鹪":"J",
+        "角":"J","脚":"J","金":"J","颈":"J","鸠":"J","鵙":"J","巨":"J","鹃":"J","卷":"J","军":"J",
+        "苦":"K","库":"K","宽":"K","鵟":"K","眶":"K","阔":"K","蜡":"L","蓝":"L","劳":"L","类":"L",
+        "鹂":"L","理":"L","丽":"L","利":"L","栗":"L","脸":"L","椋":"L","鹩":"L","鴷":"L","林":"L",
+        "鳞":"L","灵":"L","鸰":"L","领":"L","流":"L","硫":"L","鹠":"L","柳":"L","鹨":"L","鸬":"L",
+        "鹭":"L","绿":"L","罗":"L","麻":"M","麦":"M","毛":"M","矛":"M","眉":"M","梅":"M","煤":"M",
+        "鹛":"M","蒙":"M","蜜":"M","棉":"M","冕":"M","牡":"M","木":"M","南":"N","拟":"N","鸟":"N",
+        "牛":"N","欧":"O","鸥":"O","攀":"P","皮":"P","琵":"P","䴙":"P","漂":"P","平":"P","普":"P",
+        "蹼":"P","潜":"Q","强":"Q","巧":"Q","翘":"Q","青":"Q","丘":"Q","秋":"Q","鸲":"Q","雀":"Q",
+        "确":"Q","鹊":"Q","日":"R","绒":"R","三":"S","色":"S","沙":"S","山":"S","扇":"S","勺":"S",
+        "蛇":"S","声":"S","胜":"S","鳾":"S","䴓":"S","石":"S","氏":"S","寿":"S","树":"S","双":"S",
+        "水":"S","丝":"S","思":"S","四":"S","松":"S","薮":"S","苏":"S","粟":"S","穗":"S","隼":"S",
+        "台":"T","太":"T","桃":"T","䴘":"T","鹈":"T","天":"T","田":"T","铁":"T","通":"T","铜":"T",
+        "头":"T","臀":"T","哇":"W","弯":"W","湾":"W","王":"W","维":"W","尾":"W","苇":"W","文":"W",
+        "纹":"W","鹟":"W","乌":"W","鹀":"W","鹉":"W","吸":"X","西":"X","希":"X","溪":"X","喜":"X",
+        "细":"X","仙":"X","鹇":"X","相":"X","鸮":"X","小":"X","啸":"X","楔":"X","胁":"X","兴":"X",
+        "胸":"X","鸺":"X","绣":"X","须":"X","鸦":"Y","鸭":"Y","亚":"Y","烟":"Y","岩":"Y","眼":"Y",
+        "雁":"Y","燕":"Y","秧":"Y","鸯":"Y","阳":"Y","腰":"Y","鹞":"Y","叶":"Y","页":"Y","夜":"Y",
+        "蚁":"Y","银":"Y","印":"Y","莺":"Y","鹦":"Y","鹰":"Y","游":"Y","鱼":"Y","渔":"Y","羽":"Y",
+        "雨":"Y","鹬":"Y","鸢":"Y","鸳":"Y","远":"Y","云":"Y","杂":"Z","噪":"Z","泽":"Z","贼":"Z",
+        "长":"C","爪":"Z","沼":"Z","鹧":"Z","针":"Z","枕":"Z","支":"Z","织":"Z","直":"Z","趾":"Z",
+        "雉":"Z","中":"Z","朱":"Z","珠":"Z","竹":"Z","锥":"Z","啄":"Z","紫":"Z","棕":"Z","嘴":"Z"
+    };
+
+    function getPinyinFirstLetters(str) {
+        if (!str) return "";
+        let result = "";
+        for (let ch of str) {
+            if (pinyinFirstLetterMap[ch]) result += pinyinFirstLetterMap[ch];
+        }
+        return result.toUpperCase();
+    }
+    const birdPinyinCache = new Map();
+    for (let bird of uniqueBirds) birdPinyinCache.set(bird, getPinyinFirstLetters(bird));
+
+    function filterBirdsByInput(birds, inputStr) {
+        const trimmed = inputStr.trim();
+        if (trimmed === "") return birds.slice(0, 15);
+        const isPureLetters = /^[a-zA-Z]+$/.test(trimmed);
+        if (isPureLetters) {
+            const upperInput = trimmed.toUpperCase();
+            return birds.filter(bird => (birdPinyinCache.get(bird) || "").indexOf(upperInput) !== -1).slice(0, 15);
+        } else {
+            return birds.filter(bird => bird.toLowerCase().includes(trimmed.toLowerCase())).slice(0, 15);
+        }
+    }
+
+    function attachAutocomplete(inputElement, allBirds) {
+        if (!inputElement || inputElement._autocompleteBound) return;
+        inputElement._autocompleteBound = true;
+        const container = document.createElement('div');
+        container.className = 'autocomplete-container';
+        inputElement.parentNode.insertBefore(container, inputElement);
+        container.appendChild(inputElement);
+        inputElement.classList.add('autocomplete-input');
+        let itemsDiv = null;
+        function closeList() { if (itemsDiv && itemsDiv.parentNode) itemsDiv.remove(); itemsDiv = null; }
+        function filterAndShow(value) {
+            closeList();
+            const matched = filterBirdsByInput(allBirds, value);
+            if (matched.length === 0) return;
+            itemsDiv = document.createElement('ul');
+            itemsDiv.className = 'autocomplete-items';
+            matched.forEach(bird => {
+                const li = document.createElement('li');
+                li.textContent = bird;
+                li.addEventListener('click', () => {
+                    inputElement.value = bird;
+                    closeList();
+                    inputElement.dispatchEvent(new Event('input', { bubbles: true }));
+                    inputElement.dispatchEvent(new Event('change', { bubbles: true }));
+                    inputElement.blur();
+                });
+                itemsDiv.appendChild(li);
+            });
+            container.appendChild(itemsDiv);
+            setTimeout(() => { if (itemsDiv) itemsDiv.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }, 50);
+        }
+        inputElement.addEventListener('input', (e) => filterAndShow(e.target.value));
+        inputElement.addEventListener('blur', () => setTimeout(() => closeList(), 200));
+        inputElement.addEventListener('keydown', (e) => {
+            if (!itemsDiv) return;
+            const items = itemsDiv.querySelectorAll('li');
+            if (!items.length) return;
+            let activeIndex = -1;
+            for (let i = 0; i < items.length; i++) if (items[i].classList.contains('autocomplete-active')) activeIndex = i;
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                const newIndex = activeIndex + 1 < items.length ? activeIndex + 1 : 0;
+                items.forEach(li => li.classList.remove('autocomplete-active'));
+                items[newIndex].classList.add('autocomplete-active');
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                const newIndex = activeIndex - 1 >= 0 ? activeIndex - 1 : items.length - 1;
+                items.forEach(li => li.classList.remove('autocomplete-active'));
+                items[newIndex].classList.add('autocomplete-active');
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                const active = itemsDiv.querySelector('.autocomplete-active');
+                if (active) { inputElement.value = active.textContent; closeList(); inputElement.blur(); inputElement.dispatchEvent(new Event('change')); }
+            }
+        });
+    }
+
+    // 生境选项
+    const habitatOptionsList = ["耕地", "草地", "湿地", "人造地表", "森林", "灌木地", "水体", "裸地"];
+    const distanceOptions = ["", "50米内", "50米外"];
+    const supplementOptions = ["", "FO（飞过，未利用样区进行觅食/求偶等行为）", "OT（样点内，非12分钟调查时间内）", "MO（样点外/样点间移动所遇见鸟类）", "H（仅听见没看见）", "OR（150米以外）"];
+    const evidenceOptions = [
+        { group:"X. 确定繁殖", items:["X1.筑巢或携带巢材","X2.孵卵或有卵巢","X3.雏鸟在巢","X4.旧巢或卵壳","X5.离巢幼鸟","X6.携带粪囊","X7.携带食物","X8.成鸟频繁往返同一地点","X9.拟伤等分散注意力的行为"] },
+        { group:"Y. 可能繁殖", items:["Y1.鸣唱","Y2.炫耀、求偶或交配行为","Y3.成鸟警示声"] }
+    ];
+
+    let birdRowIdCounter = 0;
+    let globalCardCollapsed = false; // 网格卡片折叠状态
+
+    function createSelectWithOptgroup(options, selectedValue='') {
+        const select = document.createElement('select');
+        const defaultOpt = document.createElement('option'); defaultOpt.value=''; defaultOpt.textContent='-- 请选择 --'; select.appendChild(defaultOpt);
+        options.forEach(group => { const optgroup = document.createElement('optgroup'); optgroup.label = group.label || group.group; group.items.forEach(item => { const option = document.createElement('option'); option.value = item; option.textContent = item; if (item === selectedValue) option.selected = true; optgroup.appendChild(option); }); select.appendChild(optgroup); });
+        return select;
+    }
+
+    function attachQuantityControls(countInput) {
+        const wrapper = document.createElement('div'); wrapper.className = 'qty-wrapper';
+        countInput.parentNode.insertBefore(wrapper, countInput); wrapper.appendChild(countInput);
+        const btnGroup = document.createElement('div'); btnGroup.className = 'qty-group';
+        const btns = [{ text:'-1', step:-1 },{ text:'+1', step:1 },{ text:'+10', step:10 },{ text:'+100', step:100 },{ text:'重置1', reset:true }];
+        btns.forEach(b => { const btn = document.createElement('button'); btn.textContent = b.text; btn.className = 'qty-btn';
+            if (b.reset) { btn.onclick = () => { countInput.value = 1; countInput.dispatchEvent(new Event('change')); }; }
+            else { btn.onclick = () => { let val = parseInt(countInput.value,10); if (isNaN(val)) val = 0; val = Math.max(0, val + b.step); countInput.value = val; countInput.dispatchEvent(new Event('change')); }; }
+            btnGroup.appendChild(btn); });
+        wrapper.appendChild(btnGroup);
+    }
+
+    function createHabitatSelect(selectedVal) {
+        const select = document.createElement('select');
+        select.className = 'point-habitat';
+        const defaultOpt = document.createElement('option'); defaultOpt.value=''; defaultOpt.textContent='-- 请选择 --'; select.appendChild(defaultOpt);
+        habitatOptionsList.forEach(opt => {
+            const option = document.createElement('option'); option.value = opt; option.textContent = opt;
+            if (opt === selectedVal) option.selected = true;
+            select.appendChild(option);
+        });
+        return select;
+    }
+
+    // 距离样点下拉选择框（带默认请选择）
+    function createDistanceSelect(selectedVal) {
+        const select = document.createElement('select');
+        select.className = 'bird-distance';
+        const defaultOpt = document.createElement('option'); defaultOpt.value=''; defaultOpt.textContent='-- 请选择 --'; select.appendChild(defaultOpt);
+        distanceOptions.forEach(opt => {
+            if (opt === '') return;
+            const option = document.createElement('option'); option.value = opt; option.textContent = opt;
+            if (opt === selectedVal) option.selected = true;
+            select.appendChild(option);
+        });
+        return select;
+    }
+
+    function createSupplementSelect(selectedVal) {
+        const select = document.createElement('select');
+        select.className = 'bird-supplement';
+        const defaultOpt = document.createElement('option'); defaultOpt.value=''; defaultOpt.textContent='-- 请选择 --'; select.appendChild(defaultOpt);
+        supplementOptions.forEach(opt => {
+            if (opt === '') return;
+            const option = document.createElement('option'); option.value = opt; option.textContent = opt;
+            if (opt === selectedVal) option.selected = true;
+            select.appendChild(option);
+        });
+        // 如果 selectedVal 不在 supplementOptions 中且非空，则添加一个临时选项以保留旧数据
+        if (selectedVal && selectedVal !== '' && !supplementOptions.includes(selectedVal)) {
+            const option = document.createElement('option'); option.value = selectedVal; option.textContent = selectedVal; option.selected = true;
+            select.appendChild(option);
+        }
+        return select;
+    }
+
+    function createBirdRow(data = null) {
+        const div = document.createElement('div'); div.className = 'bird-record';
+        let countVal = data && data.count !== undefined ? data.count : 1;
+        let firstTimeVal = data && data.firstTime !== undefined ? data.firstTime : (() => { const now = new Date(); return `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`; })();
+        let distanceVal = data && data.distance !== undefined ? data.distance : '';
+        let evidenceVal = data && data.evidence !== undefined ? data.evidence : '';
+        let supplementVal = data && data.supplement !== undefined ? data.supplement : '';
+        let birdNameVal = data && data.name !== undefined ? data.name : '';
+        let remarkVal = data && data.remark !== undefined ? data.remark : '';
+
+        // 字段顺序调整：时间第一，然后是鸟名、数量，再是距离样点、繁殖证据，最后补充记录、备注
+        div.innerHTML = `
+            <div class="row">
+                <div class="field"><label>⏱️ 时间</label><div class="time-wrapper-placeholder"></div></div>
+                <div class="field"><label>🐦 鸟名 (支持汉字/拼音首字母)</label><div class="bird-autocomplete-placeholder"></div></div>
+                <div class="field"><label>📊 数量</label><div class="qty-wrapper-placeholder"></div></div>
+            </div>
+            <div class="row">
+                <div class="field"><label>📍 距离样点</label><div class="distance-placeholder"></div></div>
+                <div class="field"><label>🐣 繁殖证据</label><div class="evidence-placeholder"></div></div>
+            </div>
+            <div class="row">
+                <div class="field"><label>📝 补充记录</label><div class="supplement-placeholder"></div></div>
+                <div class="field"><label>📝 备注</label><input type="text" class="bird-remark" value="${escapeHtml(remarkVal)}" placeholder="如：集群/飞行/巢址"></div>
+                <div class="field" style="flex:0.3;"><button class="btn-outline-sm delete-bird" style="margin-top:20px;">删除</button></div>
+            </div>
+        `;
+
+        const autoPlaceholder = div.querySelector('.bird-autocomplete-placeholder'); const birdInput = document.createElement('input'); birdInput.type='text'; birdInput.className='bird-name'; birdInput.value=birdNameVal; birdInput.placeholder='输入鸟名或拼音首字母 (如 zhgz)'; autoPlaceholder.parentNode.replaceChild(birdInput, autoPlaceholder); attachAutocomplete(birdInput, uniqueBirds);
+        const timePlaceholder = div.querySelector('.time-wrapper-placeholder'); const timeInput = document.createElement('input'); timeInput.type='time'; timeInput.className='bird-first-time'; timeInput.value=firstTimeVal; timePlaceholder.parentNode.replaceChild(timeInput, timePlaceholder);
+        const qtyPlaceholder = div.querySelector('.qty-wrapper-placeholder'); const countInput = document.createElement('input'); countInput.type='number'; countInput.className='bird-count'; countInput.value=countVal; countInput.min=0; qtyPlaceholder.parentNode.replaceChild(countInput, qtyPlaceholder); attachQuantityControls(countInput);
+        const distancePlaceholder = div.querySelector('.distance-placeholder'); const distanceSelect = createDistanceSelect(distanceVal); distanceSelect.className='bird-distance'; distancePlaceholder.parentNode.replaceChild(distanceSelect, distancePlaceholder);
+        const evidencePlaceholder = div.querySelector('.evidence-placeholder'); const evidenceSelect = createSelectWithOptgroup(evidenceOptions, evidenceVal); evidenceSelect.className='bird-evidence'; evidencePlaceholder.parentNode.replaceChild(evidenceSelect, evidencePlaceholder);
+        const supplementPlaceholder = div.querySelector('.supplement-placeholder'); const supplementSelect = createSupplementSelect(supplementVal); supplementSelect.className='bird-supplement'; supplementPlaceholder.parentNode.replaceChild(supplementSelect, supplementPlaceholder);
+
+        const delBtn = div.querySelector('.delete-bird'); delBtn.addEventListener('click', () => { if(confirm('确定删除这条鸟种记录吗？')){ div.remove(); saveAllData(); } });
+        const inputs = div.querySelectorAll('input, select'); inputs.forEach(inp => inp.addEventListener('change', () => saveAllData()));
+        setTimeout(() => birdInput.focus(), 50);
+        return div;
+    }
+
+    // 倒计时逻辑：每个样点独立，基于绝对时间戳
+    function attachCountdownTimer(card, startTimeInput, timerBtn, countdownDisplay, initialCountdownData, extraDisplay = null, onStart = null, onStop = null, onExpire = null, restartBtn = null) {
+        let timerInterval = null;
+        let remainingSeconds = 0;
+        let countdownStartTimestamp = null;
+        let countdownTotalSeconds = 0;
+        let isPaused = false;
+
+        function showRestartBtn() {
+            if (restartBtn) restartBtn.style.display = '';
+        }
+        function hideRestartBtn() {
+            if (restartBtn) restartBtn.style.display = 'none';
+        }
+
+        // 计算剩余秒数，基于保存的开始时间戳和总秒数
+        function computeRemainingSeconds() {
+            if (!countdownStartTimestamp || countdownTotalSeconds <= 0) return 0;
+            const elapsedSeconds = Math.floor((Date.now() - countdownStartTimestamp) / 1000);
+            const remaining = Math.max(0, countdownTotalSeconds - elapsedSeconds);
+            return remaining;
+        }
+
+        function updateDisplay() {
+            const mins = Math.floor(remainingSeconds / 60);
+            const secs = remainingSeconds % 60;
+            const displayText = `⏱️ 剩余时间：${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+            countdownDisplay.textContent = displayText;
+            if (extraDisplay) extraDisplay.textContent = displayText;
+        }
+
+        function stopTimer(resetButtonText = true) {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            if (resetButtonText) {
+                timerBtn.textContent = '开始倒计时';
+                // 清除开始时间戳，表示倒计时已停止
+                countdownStartTimestamp = null;
+                countdownTotalSeconds = 0;
+                isPaused = false;
+                // 隐藏重新开始按钮
+                if (restartBtn) restartBtn.style.display = 'none';
+                // 触发保存，更新倒计时状态
+                if (typeof onCountdownChange === 'function') onCountdownChange();
+            }
+        }
+
+        function pauseTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                isPaused = true;
+                timerBtn.textContent = '继续倒计时';
+                showRestartBtn();
+                // 不重置时间戳和总秒数，以便继续
+                if (typeof onCountdownChange === 'function') onCountdownChange();
+            }
+        }
+
+        function startTimer(fromPause = false) {
+            if (timerInterval) stopTimer(false);
+
+            if (!fromPause) {
+                // 全新开始
+                let minutes = parseInt(startTimeInput.value, 10);
+                if (isNaN(minutes) || minutes < 0) minutes = 0;
+                countdownTotalSeconds = minutes * 60;
+                if (countdownTotalSeconds <= 0) {
+                    const displayText = '⏱️ 剩余时间：00:00';
+                    countdownDisplay.textContent = displayText;
+                    if (extraDisplay) extraDisplay.textContent = displayText;
+                    timerBtn.textContent = '开始倒计时';
+                    hideRestartBtn();
+                    confirm("计时结束，请前往下一个样点");
+                    if (onExpire) onExpire();
+                    return;
+                }
+                // 设置开始时间戳为当前时间
+                countdownStartTimestamp = Date.now();
+                remainingSeconds = countdownTotalSeconds;
+            } else {
+                // 从暂停继续
+                isPaused = false;
+                // 保持现有的countdownStartTimestamp和countdownTotalSeconds不变
+                // 计算剩余时间
+                remainingSeconds = computeRemainingSeconds();
+                if (remainingSeconds <= 0) {
+                    // 如果剩余时间为0，相当于结束
+                    stopTimer(true);
+                    const displayText = '⏱️ 剩余时间：00:00';
+                    countdownDisplay.textContent = displayText;
+                    if (extraDisplay) extraDisplay.textContent = displayText;
+                    timerBtn.textContent = '开始倒计时';
+                    confirm("计时结束，请前往下一个样点");
+                    if (onExpire) onExpire();
+                    return;
+                }
+            }
+
+            updateDisplay();
+            // 触发保存，记录开始时间戳和总秒数
+            if (typeof onCountdownChange === 'function') onCountdownChange();
+            timerInterval = setInterval(() => {
+                remainingSeconds = computeRemainingSeconds();
+                if (remainingSeconds <= 0) {
+                    stopTimer(true);
+                    const displayText = '⏱️ 剩余时间：00:00';
+                    countdownDisplay.textContent = displayText;
+                    if (extraDisplay) extraDisplay.textContent = displayText;
+                    confirm("计时结束，请前往下一个样点");
+                    if (onExpire) onExpire();
+                    return;
+                }
+                updateDisplay();
+            }, 1000);
+            timerBtn.textContent = '暂停倒计时';
+            showRestartBtn();
+            if (onStart) onStart();
+        }
+
+        function restartTimer() {
+            // 停止当前计时
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            isPaused = false;
+            // 读取当前分钟数
+            let minutes = parseInt(startTimeInput.value, 10);
+            if (isNaN(minutes) || minutes < 0) minutes = 0;
+            countdownTotalSeconds = minutes * 60;
+            if (countdownTotalSeconds <= 0) {
+                const displayText = '⏱️ 剩余时间：00:00';
+                countdownDisplay.textContent = displayText;
+                if (extraDisplay) extraDisplay.textContent = displayText;
+                timerBtn.textContent = '开始倒计时';
+                hideRestartBtn();
+                // 不需要确认，因为用户主动重新开始
+                return;
+            }
+            // 重置开始时间戳
+            countdownStartTimestamp = Date.now();
+            remainingSeconds = countdownTotalSeconds;
+            updateDisplay();
+            // 触发保存
+            if (typeof onCountdownChange === 'function') onCountdownChange();
+            timerInterval = setInterval(() => {
+                remainingSeconds = computeRemainingSeconds();
+                if (remainingSeconds <= 0) {
+                    stopTimer(true);
+                    const displayText = '⏱️ 剩余时间：00:00';
+                    countdownDisplay.textContent = displayText;
+                    if (extraDisplay) extraDisplay.textContent = displayText;
+                    confirm("计时结束，请前往下一个样点");
+                    if (onExpire) onExpire();
+                    return;
+                }
+                updateDisplay();
+            }, 1000);
+            timerBtn.textContent = '暂停倒计时';
+            showRestartBtn();
+            if (onStart) onStart();
+        }
+
+        // 恢复倒计时（如果 initialCountdownData 提供了有效数据）
+        function restoreCountdown(data) {
+            if (!data || !data.startTimestamp || !data.totalSeconds) return;
+            countdownStartTimestamp = data.startTimestamp;
+            countdownTotalSeconds = data.totalSeconds;
+            // 计算剩余秒数
+            remainingSeconds = computeRemainingSeconds();
+            if (remainingSeconds <= 0) {
+                // 倒计时已结束
+                const displayText = '⏱️ 剩余时间：00:00';
+                countdownDisplay.textContent = displayText;
+                if (extraDisplay) extraDisplay.textContent = displayText;
+                timerBtn.textContent = '开始倒计时';
+                hideRestartBtn();
+                countdownStartTimestamp = null;
+                countdownTotalSeconds = 0;
+                // 可以触发提醒，但恢复时不弹窗
+                // 如果需要提醒，可以加一个标志，避免重复弹窗
+                if (onExpire) onExpire();
+                return;
+            }
+            // 倒计时未结束，继续计时
+            updateDisplay();
+            showRestartBtn();
+            timerBtn.textContent = '暂停倒计时';
+            timerInterval = setInterval(() => {
+                remainingSeconds = computeRemainingSeconds();
+                if (remainingSeconds <= 0) {
+                    stopTimer(true);
+                    const displayText = '⏱️ 剩余时间：00:00';
+                    countdownDisplay.textContent = displayText;
+                    if (extraDisplay) extraDisplay.textContent = displayText;
+                    confirm("计时结束，请前往下一个样点");
+                    if (onExpire) onExpire();
+                    return;
+                }
+                updateDisplay();
+                if (remainingSeconds <= 0) {
+                    stopTimer(true);
+                    confirm("计时结束，请前往下一个样点");
+                    if (onExpire) onExpire();
+                }
+            }, 1000);
+        }
+
+        // 回调函数，当倒计时状态改变时（开始、停止、结束）调用，用于保存数据
+        let onCountdownChange = () => {};
+
+        timerBtn.addEventListener('click', () => {
+            if (timerInterval) {
+                // 正在运行 -> 暂停
+                pauseTimer();
+            } else if (isPaused) {
+                // 已暂停 -> 继续
+                startTimer(true);
+            } else {
+                // 停止状态 -> 开始
+                startTimer();
+            }
+        });
+
+        if (restartBtn) {
+            restartBtn.addEventListener('click', () => {
+                restartTimer();
+            });
+        }
+
+        startTimeInput.addEventListener('input', () => {
+            if (timerInterval) stopTimer(true);
+            // 输入变化时也更新总秒数，但不开始计时
+            countdownTotalSeconds = parseInt(startTimeInput.value, 10) * 60;
+            if (typeof onCountdownChange === 'function') onCountdownChange();
+        });
+
+        // 初始化：如果提供了恢复数据，则恢复倒计时
+        if (initialCountdownData) {
+            restoreCountdown(initialCountdownData);
+        }
+
+        // 返回停止函数和设置回调的函数
+        return {
+            cleanup: () => { if (timerInterval) clearInterval(timerInterval); },
+            setOnCountdownChange: (callback) => { onCountdownChange = callback; },
+            getCountdownData: () => ({
+                startTimestamp: countdownStartTimestamp,
+                totalSeconds: countdownTotalSeconds,
+                isRunning: !!timerInterval
+            })
+        };
+    }
+
+    function initGlobalCountdown(restoreData = null) {
+        const startTimeInput = document.getElementById('globalCountdownMinutes');
+        const timerBtn = document.getElementById('globalCountdownToggleBtn');
+        const restartBtn = document.getElementById('globalCountdownRestartBtn');
+        const countdownDisplay = document.getElementById('globalCountdownDisplay');
+        if (!startTimeInput || !timerBtn || !countdownDisplay) return;
+        // 获取折叠/展开相关元素
+        const globalCard = document.querySelector('.global-countdown-card');
+        const expandedContainer = globalCard.querySelector('.countdown-expanded');
+        const collapsedContainer = globalCard.querySelector('.countdown-collapsed');
+        const collapsedDisplay = document.getElementById('globalCountdownDisplayCollapsed');
+        // 获取手动折叠按钮
+        const toggleBtn = globalCard.querySelector('.countdown-collapse-toggle');
+        // 设置分钟数
+        if (restoreData && restoreData.minutes !== undefined) {
+            startTimeInput.value = restoreData.minutes;
+        }
+        // 提取倒计时恢复数据（startTimestamp, totalSeconds, isRunning）
+        const countdownRestoreData = restoreData ? {
+            startTimestamp: restoreData.startTimestamp,
+            totalSeconds: restoreData.totalSeconds,
+            isRunning: restoreData.isRunning
+        } : null;
+        // 恢复折叠状态
+        if (restoreData && restoreData.collapsed && expandedContainer && collapsedContainer) {
+            expandedContainer.style.display = 'none';
+            collapsedContainer.style.display = 'block';
+        }
+        // 初始状态同步按钮文字
+        if (toggleBtn) {
+            if (restoreData && restoreData.collapsed && expandedContainer && collapsedContainer) {
+                toggleBtn.textContent = '▼';  // 折叠状态显示 ▼
+            } else {
+                toggleBtn.textContent = '▲';  // 展开状态显示 ▲
+            }
+        }
+        // 定义切换折叠/展开的函数（同时更新按钮文字）
+        function toggleCollapse() {
+            const isCurrentlyCollapsed = collapsedContainer.style.display === 'block';
+            if (isCurrentlyCollapsed) {
+                // 当前为折叠状态 -> 展开
+                expandedContainer.style.display = 'block';
+                collapsedContainer.style.display = 'none';
+                if (toggleBtn) toggleBtn.textContent = '▲';
+            } else {
+                // 当前为展开状态 -> 折叠
+                expandedContainer.style.display = 'none';
+                collapsedContainer.style.display = 'block';
+                if (toggleBtn) toggleBtn.textContent = '▼';
+            }
+            // 触发保存（折叠状态会自动记录）
+            saveAllData();
+        }
+        // 绑定按钮点击事件
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', toggleCollapse);
+        }
+        // 开始计时时的回调：自动折叠
+        function onCountdownStart() {
+            if (expandedContainer && collapsedContainer) {
+                expandedContainer.style.display = 'none';
+                collapsedContainer.style.display = 'block';
+                if (toggleBtn) toggleBtn.textContent = '▼';  // 新增
+            }
+        }
+        // 倒计时结束时的回调：自动展开
+        function onCountdownExpire() {
+            if (expandedContainer && collapsedContainer) {
+                expandedContainer.style.display = 'block';
+                collapsedContainer.style.display = 'none';
+                if (toggleBtn) toggleBtn.textContent = '▲';  // 新增
+            }
+        }
+        // 点击精简视图时展开
+        if (collapsedContainer) {
+            collapsedContainer.addEventListener('click', () => {
+                if (expandedContainer && collapsedContainer) {
+                    expandedContainer.style.display = 'block';
+                    collapsedContainer.style.display = 'none';
+                    if (toggleBtn) toggleBtn.textContent = '▲';  // 新增
+                }
+            });
+        }
+        const controller = attachCountdownTimer(null, startTimeInput, timerBtn, countdownDisplay, countdownRestoreData, collapsedDisplay, onCountdownStart, null, onCountdownExpire, restartBtn);
+        controller.setOnCountdownChange(() => {
+            saveAllData();
+        });
+        window.globalCountdownController = controller;
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById('toastMessage');
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
+    function createPointCard(pointData, index, isCollapsed = false) {
+        const card = document.createElement('div');
+        card.className = 'point-card';
+        const pointCode = pointData.pointCode || '01';
+        const habitat = pointData.habitat || '';
+        const location = pointData.location || '';
+        const birdRecords = pointData.birdRecords || [];
+
+        card.innerHTML = `
+            <div class="point-header">
+                <div class="point-title">样点 ${pointCode}</div>
+                <button class="collapse-toggle">${isCollapsed ? '▼' : '▲'}</button>
+                <button class="delete-point">删除样点</button>
+            </div>
+            <div class="point-summary" style="${isCollapsed ? 'display: flex; flex-direction: column;' : 'display: none;'}">
+                <div class="summary-stats">🐦 鸟种数：0 &nbsp;|&nbsp; 📊 总数量：0</div>
+                <div class="summary-birds"></div>
+                <div style="font-size: 12px; color: #6c8f6c; margin-top: 6px;">📅 <span class="summary-date">—</span> &nbsp;🔍 <span class="summary-surveyor">—</span></div>
+            </div>
+            <div class="collapsible-content" style="${isCollapsed ? 'display: none;' : 'display: block;'}">
+                <div class="point-info">
+                    <div class="field"><label>🗺️ 位置（经纬度/海拔）</label><div class="loc-wrapper"><input type="text" class="point-location" value="${escapeHtml(location)}" placeholder="例如：22.5, 113.9"><button class="loc-btn get-loc">📍 获取当前位置</button></div><span class="loc-hint">💡 可手动输入坐标，或从地图APP复制粘贴</span></div>
+                    <div class="field"><label>🌾 生境类型</label><div class="habitat-placeholder"></div></div>
+                </div>
+                <div class="bird-records-container">
+                    <div class="bird-list"></div>
+                    <div class="add-bird-wrapper"><button class="btn-sm add-bird">+ 添加鸟种</button></div>
+                </div>
+            </div>
+        `;
+
+        const habitatPlaceholder = card.querySelector('.habitat-placeholder');
+        const habitatSelect = createHabitatSelect(habitat);
+        habitatSelect.className = 'point-habitat';
+        habitatPlaceholder.parentNode.replaceChild(habitatSelect, habitatPlaceholder);
+
+        const birdListDiv = card.querySelector('.bird-list');
+        birdRecords.forEach(rec => birdListDiv.appendChild(createBirdRow(rec)));
+        if (birdRecords.length === 0) birdListDiv.appendChild(createBirdRow());
+
+
+        // 折叠/展开
+        const toggleBtn = card.querySelector('.collapse-toggle');
+        const summaryDiv = card.querySelector('.point-summary');
+        const collapsibleDiv = card.querySelector('.collapsible-content');
+        function toggleCollapse() {
+            const isCurrentlyCollapsed = collapsibleDiv.style.display === 'none';
+            if (isCurrentlyCollapsed) {
+                collapsibleDiv.style.display = 'block';
+                summaryDiv.style.display = 'none';
+                toggleBtn.textContent = '▲';
+            } else {
+                collapsibleDiv.style.display = 'none';
+                summaryDiv.style.display = 'flex';
+                toggleBtn.textContent = '▼';
+            }
+            saveAllData();
+        }
+        toggleBtn.addEventListener('click', toggleCollapse);
+        summaryDiv.addEventListener('click', () => { if (collapsibleDiv.style.display === 'none') toggleCollapse(); });
+
+        // 删除样点
+        card.querySelector('.delete-point').addEventListener('click', () => {
+            if (confirm('确定删除该样点？')) {
+                card.remove();
+                saveAllData();
+            }
+        });
+
+        // 添加鸟种
+        card.querySelector('.add-bird').addEventListener('click', () => {
+            birdListDiv.appendChild(createBirdRow());
+            saveAllData();
+            updateCardSummary(card);
+        });
+
+        // 定位
+        const locInput = card.querySelector('.point-location');
+        card.querySelector('.get-loc').addEventListener('click', () => {
+            if (window.location.protocol === 'file:') { alert("当前为本地文件模式，定位功能需 HTTPS 或本地服务器环境。请将页面部署到 Web 服务器后再使用。"); return; }
+            if (!navigator.geolocation) { alert("当前浏览器不支持地理定位"); return; }
+            const btn = card.querySelector('.get-loc');
+            btn.disabled = true; btn.textContent = '定位中...';
+            navigator.geolocation.getCurrentPosition(
+                pos => {
+                    const lat = pos.coords.latitude.toFixed(6);
+                    const lon = pos.coords.longitude.toFixed(6);
+                    const acc = pos.coords.accuracy.toFixed(1);
+                    locInput.value = `${lat}, ${lon} (精度 ±${acc}m)`;
+                    locInput.dispatchEvent(new Event('change'));
+                    btn.textContent = '📍 获取当前位置';
+                    btn.disabled = false;
+                },
+                () => { alert("定位失败，请手动输入"); btn.textContent = '📍 获取当前位置'; btn.disabled = false; },
+                { enableHighAccuracy: true, timeout: 10000 }
+            );
+        });
+
+        // 字段变更保存
+        const fields = ['.point-habitat', '.point-location'];
+        fields.forEach(sel => {
+            const el = card.querySelector(sel);
+            if (el) el.addEventListener('change', () => saveAllData());
+        });
+
+        const observer = new MutationObserver(() => updateCardSummary(card));
+        observer.observe(birdListDiv, { childList: true, subtree: true, attributes: true });
+        setTimeout(() => updateCardSummary(card), 10);
+        return card;
+    }
+
+    function updateCardSummary(card) {
+        const birdRecords = card.querySelectorAll('.bird-record');
+        let speciesCount = 0, totalCount = 0;
+        const birdMap = new Map();
+        birdRecords.forEach(rec => {
+            const birdName = rec.querySelector('.bird-name').value.trim();
+            const count = parseInt(rec.querySelector('.bird-count').value, 10);
+            if (birdName && !isNaN(count) && count > 0) {
+                birdMap.set(birdName, (birdMap.get(birdName) || 0) + count);
+            }
+        });
+        speciesCount = birdMap.size;
+        totalCount = Array.from(birdMap.values()).reduce((a,b)=>a+b,0);
+        const summaryDiv = card.querySelector('.point-summary');
+        if (summaryDiv) {
+            const statsSpan = summaryDiv.querySelector('.summary-stats');
+            if (statsSpan) statsSpan.innerHTML = `🐦 鸟种数：${speciesCount} &nbsp;|&nbsp; 📊 总数量：${totalCount}`;
+            const birdsContainer = summaryDiv.querySelector('.summary-birds');
+            if (birdsContainer) {
+                if (birdMap.size === 0) birdsContainer.innerHTML = '<span style="color:#aaa;">暂无鸟种记录</span>';
+                else {
+                    let html = '';
+                    for (let [name, qty] of birdMap.entries()) html += `<div class="summary-bird-item">${escapeHtml(name)} × ${qty}</div>`;
+                    birdsContainer.innerHTML = html;
+                }
+            }
+            const gridDate = document.getElementById('surveyDate').value || '—';
+            const gridSurveyor = document.getElementById('surveyor').value || '—';
+            const dateSpan = summaryDiv.querySelector('.summary-date');
+            const surveyorSpan = summaryDiv.querySelector('.summary-surveyor');
+            if (dateSpan) dateSpan.textContent = gridDate;
+            if (surveyorSpan) surveyorSpan.textContent = gridSurveyor;
+        }
+    }
+
+    // 新添加的数据概览更新函数
+    function updateOverviewStatistics() {
+        const totalPointsCount = document.querySelectorAll('.point-card').length;
+        const totalPointsElement = document.getElementById('totalPointsCount');
+        if (totalPointsElement) totalPointsElement.textContent = totalPointsCount;
+
+        // 统计所有鸟种（去重）和总数量
+        const allBirdSet = new Set();
+        let totalBirdCount = 0;
+        const habitatPointCount = {};
+        const habitatBirdSet = {};
+
+        // 初始化生境统计
+        habitatOptionsList.forEach(habitat => {
+            habitatPointCount[habitat] = 0;
+            habitatBirdSet[habitat] = new Set();
+        });
+
+        // 遍历所有样点
+        document.querySelectorAll('.point-card').forEach(card => {
+            const habitatSelect = card.querySelector('.point-habitat');
+            const habitat = habitatSelect ? habitatSelect.value : '';
+
+            // 统计生境样点数量
+            if (habitat && habitatPointCount[habitat] !== undefined) {
+                habitatPointCount[habitat]++;
+            }
+
+            // 统计鸟种
+            card.querySelectorAll('.bird-record').forEach(rec => {
+                const birdName = rec.querySelector('.bird-name').value.trim();
+                const count = parseInt(rec.querySelector('.bird-count').value, 10);
+
+                if (birdName && !isNaN(count) && count > 0) {
+                    allBirdSet.add(birdName);
+                    totalBirdCount += count;
+
+                    // 按生境统计鸟种
+                    if (habitat && habitatBirdSet[habitat]) {
+                        habitatBirdSet[habitat].add(birdName);
+                    }
+                }
+            });
+        });
+
+        // 更新总鸟种数（去重）和总数量
+        const totalBirdSpeciesElement = document.getElementById('totalBirdSpeciesCount');
+        const totalBirdCountElement = document.getElementById('totalBirdCount');
+        if (totalBirdSpeciesElement) totalBirdSpeciesElement.textContent = allBirdSet.size;
+        if (totalBirdCountElement) totalBirdCountElement.textContent = totalBirdCount;
+
+        // 计算涉及的生境数（至少有一个样点的生境类型）
+        let habitatTypesCount = 0;
+        for (let count of Object.values(habitatPointCount)) {
+            if (count > 0) habitatTypesCount++;
+        }
+        const totalHabitatElement = document.getElementById('totalHabitatCount');
+        if (totalHabitatElement) totalHabitatElement.textContent = habitatTypesCount;
+
+        // 更新生境统计
+        const habitatStatsGrid = document.getElementById('habitatStatsGrid');
+        if (habitatStatsGrid) {
+            let html = '';
+            let hasAnyHabitatData = false;
+
+            // 只显示有样点的生境类型
+            for (const [habitat, pointCount] of Object.entries(habitatPointCount)) {
+                if (pointCount > 0) {
+                    hasAnyHabitatData = true;
+                    const birdCount = habitatBirdSet[habitat] ? habitatBirdSet[habitat].size : 0;
+                    html += `
+                        <div class="habitat-stat-item">
+                            <span class="habitat-name">${escapeHtml(habitat)}</span>
+                            <div style="display: flex; flex-direction: column; align-items: flex-end;">
+                                <span class="habitat-count">${pointCount}</span>
+                                <span style="font-size: 11px; color: #8e8e93; margin-top: 2px;">${birdCount}种鸟</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            if (!hasAnyHabitatData) {
+                html = '<div style="grid-column: 1 / -1; text-align: center; color: #8e8e93; font-size: 13px; padding: 12px;">暂无生境统计数据</div>';
+            }
+
+            habitatStatsGrid.innerHTML = html;
+        }
+    }
+
+    // 显示鸟种详情模态框
+    function showBirdDetailModal() {
+        const modal = document.getElementById('birdDetailModal');
+        if (!modal) return;
+
+        // 更新模态框内容
+        updateBirdDetailModal();
+
+        // 显示模态框
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden'; // 防止背景滚动
+    }
+
+    // 关闭鸟种详情模态框
+    function closeBirdDetailModal() {
+        const modal = document.getElementById('birdDetailModal');
+        if (!modal) return;
+
+        modal.classList.remove('show');
+        document.body.style.overflow = ''; // 恢复滚动
+    }
+
+    // 生成鸟种详细统计数据
+    function generateBirdDetailData() {
+        const allBirdsMap = new Map(); // 鸟种 -> 总数量
+        const habitatBirdMap = new Map(); // 生境 -> Map(鸟种 -> 数量)
+        const pointsWithBirds = new Set(); // 包含鸟种的样点
+
+        // 初始化生境映射
+        habitatOptionsList.forEach(habitat => {
+            habitatBirdMap.set(habitat, new Map());
+        });
+
+        // 遍历所有样点
+        document.querySelectorAll('.point-card').forEach(card => {
+            const habitatSelect = card.querySelector('.point-habitat');
+            const habitat = habitatSelect ? habitatSelect.value : '';
+            let pointHasBirds = false;
+
+            // 遍历样点内的鸟种记录
+            card.querySelectorAll('.bird-record').forEach(rec => {
+                const birdName = rec.querySelector('.bird-name').value.trim();
+                const count = parseInt(rec.querySelector('.bird-count').value, 10);
+
+                if (birdName && !isNaN(count) && count > 0) {
+                    pointHasBirds = true;
+
+                    // 更新总鸟种数量
+                    allBirdsMap.set(birdName, (allBirdsMap.get(birdName) || 0) + count);
+
+                    // 更新生境鸟种数量
+                    if (habitat && habitatBirdMap.has(habitat)) {
+                        const habitatMap = habitatBirdMap.get(habitat);
+                        habitatMap.set(birdName, (habitatMap.get(birdName) || 0) + count);
+                    }
+                }
+            });
+
+            if (pointHasBirds) {
+                // 获取样点编号用于标识
+                const pointTitle = card.querySelector('.point-title');
+                if (pointTitle) {
+                    pointsWithBirds.add(pointTitle.textContent.trim());
+                }
+            }
+        });
+
+        return {
+            allBirdsMap,
+            habitatBirdMap,
+            pointsWithBirds
+        };
+    }
+
+    // 更新鸟种详情模态框内容
+    function updateBirdDetailModal() {
+        const data = generateBirdDetailData();
+        const { allBirdsMap, habitatBirdMap, pointsWithBirds } = data;
+
+        // 统计繁殖证据
+        const breedingMap = new Map(); // 鸟名 -> { confirmed: false, probable: false, flyover: false }
+        // 聚合每个鸟种的证据标签
+        const birdEvidenceMap = new Map(); // 鸟名 -> Set(证据代码)
+
+        document.querySelectorAll('.point-card').forEach(card => {
+            card.querySelectorAll('.bird-record').forEach(rec => {
+                const birdName = rec.querySelector('.bird-name').value.trim();
+                const evidence = rec.querySelector('.bird-evidence').value;
+                const supplement = rec.querySelector('.bird-supplement').value;
+                if (!birdName) return;
+
+                if (!breedingMap.has(birdName)) {
+                    breedingMap.set(birdName, { confirmed: false, probable: false, flyover: false });
+                }
+                const status = breedingMap.get(birdName);
+
+                // 判断确定繁殖 (X开头)
+                if (evidence && evidence.startsWith('X')) {
+                    status.confirmed = true;
+                }
+                // 判断可能繁殖 (Y开头)
+                if (evidence && evidence.startsWith('Y')) {
+                    status.probable = true;
+                }
+                // 判断飞过/仅听见 (FO 或 H)，且无繁殖证据时计为飞过类
+                if (supplement && (supplement.includes('FO') || supplement.includes('H'))) {
+                    status.flyover = true;
+                }
+
+                // 收集证据标签
+                if (!birdEvidenceMap.has(birdName)) {
+                    birdEvidenceMap.set(birdName, new Set());
+                }
+                const evidenceSet = birdEvidenceMap.get(birdName);
+
+                // 添加繁殖证据（取简码，如 X1, Y2）
+                if (evidence) {
+                    // 提取第一个空格前的部分，或整个值
+                    const shortCode = evidence.split(' ')[0] || evidence;
+                    evidenceSet.add(shortCode);
+                }
+                // 添加补充记录中的 FO 和 H
+                if (supplement) {
+                    if (supplement.includes('FO')) evidenceSet.add('FO');
+                    if (supplement.includes('H')) evidenceSet.add('H');
+                }
+            });
+        });
+
+        let confirmedCount = 0, probableCount = 0, flyoverCount = 0;
+        for (let status of breedingMap.values()) {
+            if (status.confirmed) {
+                confirmedCount++;
+            } else if (status.probable) {
+                probableCount++;
+            } else if (status.flyover) {
+                flyoverCount++;
+            }
+            // 注意：若同时有 confirmed 和 probable，优先计为 confirmed
+        }
+
+        document.getElementById('modalConfirmedBreeding').textContent = confirmedCount;
+        document.getElementById('modalProbableBreeding').textContent = probableCount;
+        document.getElementById('modalFlyoverHeard').textContent = flyoverCount;
+
+        // 更新统计数字
+        document.getElementById('modalTotalSpecies').textContent = allBirdsMap.size;
+        document.getElementById('modalTotalCount').textContent = Array.from(allBirdsMap.values()).reduce((sum, count) => sum + count, 0);
+        document.getElementById('modalTotalPoints').textContent = pointsWithBirds.size;
+
+        // 更新鸟种详细列表
+        const birdDetailList = document.getElementById('birdDetailList');
+        if (birdDetailList) {
+            if (allBirdsMap.size === 0) {
+                birdDetailList.innerHTML = '<div style="text-align: center; color: #8e8e93; padding: 40px; font-size: 16px;">暂无鸟种记录</div>';
+            } else {
+                // 按数量降序排序
+                const sortedBirds = Array.from(allBirdsMap.entries())
+                    .sort((a, b) => b[1] - a[1]);
+
+                let html = '';
+                sortedBirds.forEach(([birdName, count]) => {
+                    const evidenceSet = birdEvidenceMap.get(birdName) || new Set();
+                    // 按优先级排序标签：确定繁殖(X) > 可能繁殖(Y) > FO/H
+                    const tags = Array.from(evidenceSet).sort((a, b) => {
+                        if (a.startsWith('X') && !b.startsWith('X')) return -1;
+                        if (b.startsWith('X') && !a.startsWith('X')) return 1;
+                        if (a.startsWith('Y') && !b.startsWith('Y')) return -1;
+                        if (b.startsWith('Y') && !a.startsWith('Y')) return 1;
+                        return a.localeCompare(b);
+                    });
+
+                    let tagsHtml = '';
+                    tags.forEach(tag => {
+                        let tagClass = 'bird-evidence-tag';
+                        if (tag.startsWith('X')) tagClass += ' tag-confirmed';
+                        else if (tag.startsWith('Y')) tagClass += ' tag-probable';
+                        else if (tag === 'FO' || tag === 'H') tagClass += ' tag-flyover';
+                        tagsHtml += `<span class="${tagClass}">${escapeHtml(tag)}</span>`;
+                    });
+
+                    html += `
+                        <div class="bird-detail-item">
+                            <div class="bird-detail-name">
+                                ${escapeHtml(birdName)}
+                                <span class="bird-evidence-tags">${tagsHtml}</span>
+                            </div>
+                            <div class="bird-detail-count">${count}</div>
+                        </div>
+                    `;
+                });
+                birdDetailList.innerHTML = html;
+            }
+        }
+
+        // 更新生境分布
+        const habitatBreakdownGrid = document.getElementById('habitatBreakdownGrid');
+        const habitatBreakdownSection = document.getElementById('habitatBreakdownSection');
+
+        if (habitatBreakdownGrid && habitatBreakdownSection) {
+            let hasHabitatData = false;
+            let habitatHtml = '';
+
+            // 只显示有鸟种记录的生境
+            for (const [habitat, birdMap] of habitatBirdMap.entries()) {
+                if (birdMap.size === 0) continue;
+                hasHabitatData = true;
+
+                const birdEntries = Array.from(birdMap.entries())
+                    .sort((a, b) => b[1] - a[1]); // 按数量降序
+
+                const totalCount = birdEntries.reduce((sum, [, c]) => sum + c, 0);
+                const totalSpecies = birdEntries.length;
+
+                // 生成完整鸟种 HTML，前 10 个默认显示，后面的默认隐藏
+                let birdsHtml = '';
+                birdEntries.forEach(([birdName, count], index) => {
+                    const hiddenClass = index >= 10 ? 'hidden-bird' : '';
+                    birdsHtml += `<div class="habitat-bird-item ${hiddenClass}" data-habitat="${escapeHtml(habitat)}">${escapeHtml(birdName)} × ${count}</div>`;
+                });
+
+                // 如果鸟种数超过 10，添加“展开全部”按钮
+                const expandButton = totalSpecies > 10
+                    ? `<button class="habitat-expand-btn" data-habitat="${escapeHtml(habitat)}">展开全部 (${totalSpecies}种)</button>`
+                    : '';
+
+                habitatHtml += `
+                    <div class="habitat-breakdown-item">
+                        <div class="habitat-breakdown-name">${escapeHtml(habitat)}</div>
+                        <div class="habitat-breakdown-birds" id="habitat-birds-${escapeHtml(habitat)}">
+                            ${birdsHtml}
+                        </div>
+                        ${expandButton}
+                    </div>
+                `;
+            }
+
+            if (!hasHabitatData) {
+                habitatBreakdownSection.style.display = 'none';
+            } else {
+                habitatBreakdownSection.style.display = 'block';
+                habitatBreakdownGrid.innerHTML = habitatHtml;
+
+                // 绑定展开/折叠事件
+                document.querySelectorAll('.habitat-expand-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const habitat = this.dataset.habitat;
+                        const container = document.getElementById(`habitat-birds-${habitat}`);
+                        if (!container) return;
+                        const hiddenItems = container.querySelectorAll('.hidden-bird');
+                        const isExpanded = hiddenItems.length === 0 || hiddenItems[0].style.display !== 'none';
+
+                        if (isExpanded) {
+                            // 当前为展开状态 -> 折叠
+                            hiddenItems.forEach(item => item.style.display = 'none');
+                            this.textContent = `展开全部 (${hiddenItems.length + 10}种)`;
+                        } else {
+                            // 当前为折叠状态 -> 展开
+                            hiddenItems.forEach(item => item.style.display = 'inline-block');
+                            this.textContent = '收起';
+                        }
+                    });
+                });
+            }
+        }
+    }
+
+    function initGlobalCard() {
+        const globalCard = document.querySelector('.global-card');
+        const expanded = globalCard.querySelector('.global-expanded');
+        const collapsed = globalCard.querySelector('.global-collapsed');
+        const toggleBtn = globalCard.querySelector('.global-collapse-toggle');
+
+        const summaryGrid = document.getElementById('globalSummaryGrid');
+        const summarySurveyor = document.getElementById('globalSummarySurveyor');
+        const summaryRecorder = document.getElementById('globalSummaryRecorder');
+        const summaryDate = document.getElementById('globalSummaryDate');
+        const summaryTime = document.getElementById('globalSummaryTime');
+
+        function updateGlobalSummary() {
+            const grid = document.getElementById('gridCode').value || '—';
+            const surveyor = document.getElementById('surveyor').value || '—';
+            const recorder = document.getElementById('recorder').value || '—';
+            const date = document.getElementById('surveyDate').value || '—';
+            const time = document.getElementById('gridStartTime').value || '—';
+            summaryGrid.textContent = grid;
+            summarySurveyor.textContent = surveyor;
+            summaryRecorder.textContent = recorder;
+            summaryDate.textContent = date;
+            summaryTime.textContent = time;
+        }
+
+        function toggleGlobalCollapse(shouldSave = true) {
+            const isCollapsed = collapsed.style.display === 'block';
+            if (isCollapsed) {
+                expanded.style.display = 'block';
+                collapsed.style.display = 'none';
+                toggleBtn.textContent = '▲';
+                globalCardCollapsed = false;
+            } else {
+                expanded.style.display = 'none';
+                collapsed.style.display = 'block';
+                toggleBtn.textContent = '▼';
+                updateGlobalSummary();
+                globalCardCollapsed = true;
+            }
+            if (shouldSave) saveAllData();
+        }
+
+        // 恢复保存的状态
+        if (globalCardCollapsed) {
+            expanded.style.display = 'none';
+            collapsed.style.display = 'block';
+            toggleBtn.textContent = '▼';
+            updateGlobalSummary();
+        } else {
+            expanded.style.display = 'block';
+            collapsed.style.display = 'none';
+            toggleBtn.textContent = '▲';
+        }
+
+        toggleBtn.addEventListener('click', () => toggleGlobalCollapse(true));
+
+        // 监听字段变化，折叠时实时更新摘要
+        ['gridCode', 'surveyor', 'recorder', 'surveyDate', 'gridStartTime'].forEach(id => {
+            document.getElementById(id).addEventListener('input', () => {
+                if (collapsed.style.display === 'block') updateGlobalSummary();
+            });
+        });
+
+        updateGlobalSummary();
+
+        // 自动折叠（仅当展开且样点数≥2时）
+        window.autoCollapseGlobalCard = function() {
+            const pointsCount = document.querySelectorAll('.point-card').length;
+            if (pointsCount >= 2 && expanded.style.display !== 'none') {
+                toggleGlobalCollapse(true);
+            }
+        };
+    }
+
+    function saveAllData() {
+        try {
+            const globalRemark = document.getElementById('globalRemark').value;
+            const grid = {
+                gridCode: document.getElementById('gridCode').value,
+                surveyDate: document.getElementById('surveyDate').value,
+                gridStartTime: document.getElementById('gridStartTime').value,
+                surveyor: document.getElementById('surveyor').value,
+                recorder: document.getElementById('recorder').value
+            };
+            let globalCountdown = null;
+            if (window.globalCountdownController && typeof window.globalCountdownController.getCountdownData === 'function') {
+                globalCountdown = window.globalCountdownController.getCountdownData();
+                // 添加分钟数字段，便于恢复
+                globalCountdown.minutes = parseInt(document.getElementById('globalCountdownMinutes').value, 10) || 13;
+            }
+            let globalCountdownCollapsed = false;
+            const globalCard = document.querySelector('.global-countdown-card');
+            if (globalCard) {
+                const expanded = globalCard.querySelector('.countdown-expanded');
+                if (expanded && getComputedStyle(expanded).display === 'none') globalCountdownCollapsed = true;
+            }
+            const pointsData = [];
+            const newCollapsed = [];
+            document.querySelectorAll('.point-card').forEach(card => {
+                const birdRecords = [];
+                card.querySelectorAll('.bird-record').forEach(rec => {
+                    birdRecords.push({
+                        name: rec.querySelector('.bird-name').value,
+                        count: rec.querySelector('.bird-count').value,
+                        firstTime: rec.querySelector('.bird-first-time').value,
+                        distance: rec.querySelector('.bird-distance').value,
+                        evidence: rec.querySelector('.bird-evidence').value,
+                        supplement: rec.querySelector('.bird-supplement').value,
+                        remark: rec.querySelector('.bird-remark').value
+                    });
+                });
+                pointsData.push({
+                    pointCode: card.querySelector('.point-title').innerText.replace('样点 ', ''),
+                    habitat: card.querySelector('.point-habitat').value,
+                    location: card.querySelector('.point-location').value,
+                    birdRecords
+                });
+                const collapsible = card.querySelector('.collapsible-content');
+                const isCollapsed = collapsible && getComputedStyle(collapsible).display === 'none';
+                newCollapsed.push(isCollapsed);
+            });
+            const fullData = { globalRemark, grid, globalCountdown, globalCountdownCollapsed, globalCardCollapsed, points: pointsData, collapsedPoints: newCollapsed, lastUpdated: new Date().toISOString() };
+            localStorage.setItem('birdSurveyMultiPointsFull', JSON.stringify(fullData));
+            updateLastSaved();
+            document.getElementById('storageWarning').style.display = 'none';
+
+            // 更新数据概览
+            updateOverviewStatistics();
+        } catch(e) {
+            console.error(e);
+            if (e.name === 'QuotaExceededError') alert("存储空间不足，请清理部分数据或导出备份后清空。");
+            else if (e.name === 'SecurityError' || e.message.includes('localStorage')) document.getElementById('storageWarning').style.display = 'flex';
+        }
+    }
+
+    function loadAllData() {
+        const saved = localStorage.getItem('birdSurveyMultiPointsFull');
+        if (!saved) { addDefaultPoint(); return; }
+        try {
+            let data = JSON.parse(saved);
+            if (!data.grid) {
+                const firstPoint = data.points && data.points[0] ? data.points[0] : {};
+                const grid = {
+                    gridCode: '',
+                    surveyDate: firstPoint.surveyDate || new Date().toISOString().split('T')[0],
+                    gridStartTime: '',
+                    surveyor: firstPoint.surveyor || '',
+                    recorder: firstPoint.recorder || ''
+                };
+                const newPoints = (data.points || []).map(p => {
+                    let habitat = p.primaryHabitat || '';
+                    if (!habitatOptionsList.includes(habitat)) habitat = '';
+                    const newBirdRecords = (p.birdRecords || []).map(b => ({
+                        name: b.name,
+                        count: b.count,
+                        firstTime: b.time || '',
+                        distance: '',
+                        evidence: b.evidence || '',
+                        supplement: '',
+                        remark: b.remark || ''
+                    }));
+                    return {
+                        pointCode: p.pointCode || '01',
+                        startTime: p.startTime || '13',
+                        habitat: habitat,
+                        location: p.location || '',
+                        birdRecords: newBirdRecords,
+                        countdownData: p.countdownData || null
+                    };
+                });
+                data = {
+                    globalRemark: data.globalRemark || '',
+                    grid: grid,
+                    points: newPoints,
+                    collapsedPoints: data.collapsedPoints || [],
+                    lastUpdated: data.lastUpdated || new Date().toISOString()
+                };
+                localStorage.setItem('birdSurveyMultiPointsFull', JSON.stringify(data));
+            }
+            document.getElementById('globalRemark').value = data.globalRemark || '';
+            document.getElementById('gridCode').value = data.grid.gridCode || '';
+            // 设置调查日期：若为空则设为当前日期
+            if (data.grid.surveyDate) {
+                document.getElementById('surveyDate').value = data.grid.surveyDate;
+            } else {
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('surveyDate').value = today;
+                data.grid.surveyDate = today;
+            }
+            // 设置调查开始时间：若为空则设为当前时间
+            if (data.grid.gridStartTime) {
+                document.getElementById('gridStartTime').value = data.grid.gridStartTime;
+            } else {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2,'0');
+                const minutes = now.getMinutes().toString().padStart(2,'0');
+                const currentTime = `${hours}:${minutes}`;
+                document.getElementById('gridStartTime').value = currentTime;
+                data.grid.gridStartTime = currentTime;
+            }
+            document.getElementById('surveyor').value = data.grid.surveyor || '';
+            document.getElementById('recorder').value = data.grid.recorder || '';
+            const container = document.getElementById('pointsContainer');
+            container.innerHTML = '';
+            const collapsedPoints = data.collapsedPoints || [];
+            if (data.points && data.points.length) {
+                data.points.forEach((p, idx) => {
+                    container.appendChild(createPointCard(p, idx, collapsedPoints[idx] === true));
+                });
+            } else {
+                addDefaultPoint();
+            }
+            updateLastSaved();
+            // 恢复全局倒计时
+            if (data.globalCountdown) {
+                data.globalCountdown.collapsed = data.globalCountdownCollapsed;
+            }
+            globalCardCollapsed = data.globalCardCollapsed || false;
+            initGlobalCountdown(data.globalCountdown);
+
+            // 更新数据概览
+            setTimeout(updateOverviewStatistics, 50);
+        } catch(e) { addDefaultPoint(); }
+    }
+
+    function addDefaultPoint() {
+        const container = document.getElementById('pointsContainer');
+        const cnt = container.children.length;
+        const newCode = (cnt + 1).toString().padStart(2, '0');
+        const newCard = createPointCard({ pointCode: newCode, birdRecords: [] }, cnt, false);
+        container.appendChild(newCard);
+        saveAllData();
+    }
+    function addNewPoint() {
+        const cnt = document.querySelectorAll('.point-card').length;
+        const newCode = (cnt + 1).toString().padStart(2, '0');
+        const newCard = createPointCard({ pointCode: newCode, birdRecords: [] }, cnt, false);
+        document.getElementById('pointsContainer').appendChild(newCard);
+        saveAllData();
+        if (window.autoCollapseGlobalCard) window.autoCollapseGlobalCard();
+    }
+
+    function exportCSV() {
+        const globalRemark = document.getElementById('globalRemark').value;
+        const grid = {
+            gridCode: document.getElementById('gridCode').value,
+            surveyDate: document.getElementById('surveyDate').value,
+            gridStartTime: document.getElementById('gridStartTime').value,
+            surveyor: document.getElementById('surveyor').value,
+            recorder: document.getElementById('recorder').value
+        };
+        const rows = [];
+        rows.push(['全局备注']); rows.push([globalRemark]);
+        let globalCountdownMinutes = parseInt(document.getElementById('globalCountdownMinutes').value, 10);
+        if (isNaN(globalCountdownMinutes) || globalCountdownMinutes < 0) {
+            globalCountdownMinutes = 13; // 或者从控制器获取
+        }
+        rows.push(['全局倒计时设置（分钟）', globalCountdownMinutes]);
+        rows.push([]);
+        rows.push(['网格编号','调查日期','调查开始时间','调查人','记录人','样点编号','倒计时分钟','生境类型','位置','鸟名','首次出现时间','数量','距离样点','繁殖证据','补充记录','备注']);
+        document.querySelectorAll('.point-card').forEach(card => {
+            const pointCode = card.querySelector('.point-title').innerText.replace('样点 ', '');
+            const countdownMinutes = ''; // 全局倒计时，样点无独立倒计时
+            const habitat = card.querySelector('.point-habitat').value;
+            const location = card.querySelector('.point-location').value;
+            const birds = card.querySelectorAll('.bird-record');
+            const base = [grid.gridCode, grid.surveyDate, grid.gridStartTime, grid.surveyor, grid.recorder, pointCode, countdownMinutes, habitat, location];
+            if (birds.length === 0) rows.push([...base, '', '', '', '', '', ''].map(csvEscape));
+            else birds.forEach(rec => {
+                rows.push([...base,
+                    rec.querySelector('.bird-name').value,
+                    rec.querySelector('.bird-first-time').value,
+                    rec.querySelector('.bird-count').value,
+                    rec.querySelector('.bird-distance').value,
+                    rec.querySelector('.bird-evidence').value,
+                    rec.querySelector('.bird-supplement').value,
+                    rec.querySelector('.bird-remark').value
+                ].map(csvEscape));
+            });
+        });
+        const csvContent = rows.map(row => row.join(',')).join('\n');
+        const blob = new Blob(["\uFEFF" + csvContent], {type: 'text/csv;charset=utf-8'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `繁殖调查_倒计时版_${new Date().toISOString().slice(0,19)}.csv`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+    }
+
+    function backupData() { const data = localStorage.getItem('birdSurveyMultiPointsFull'); if(!data) return alert('无数据'); const blob=new Blob([data],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`鸟调备份_倒计时版_${new Date().toISOString().slice(0,19)}.json`; a.click(); URL.revokeObjectURL(a.href); }
+    function restoreData() { const inp=document.createElement('input'); inp.type='file'; inp.accept='application/json'; inp.onchange=e=>{ const file=e.target.files[0]; if(!file) return; const reader=new FileReader(); reader.onload=ev=>{ try{ const data=JSON.parse(ev.target.result); localStorage.setItem('birdSurveyMultiPointsFull',JSON.stringify(data)); loadAllData(); alert('恢复成功'); }catch(err){ alert('文件无效'); } }; reader.readAsText(file); }; inp.click(); }
+    function clearAll() { if(confirm('⚠️ 清空所有数据？不可恢复。')){ localStorage.removeItem('birdSurveyMultiPointsFull'); document.getElementById('globalRemark').value=''; document.getElementById('gridCode').value=''; document.getElementById('surveyDate').value=''; document.getElementById('gridStartTime').value=''; document.getElementById('surveyor').value=''; document.getElementById('recorder').value=''; document.getElementById('pointsContainer').innerHTML=''; addDefaultPoint(); saveAllData(); } }
+
+    function updateLastSaved() {
+        const saved = localStorage.getItem('birdSurveyMultiPointsFull');
+        const timeSpan = document.getElementById('footerSaveTime');
+        if (timeSpan && saved) {
+            try {
+                const data = JSON.parse(saved);
+                const timeStr = new Date(data.lastUpdated).toLocaleString('zh-CN');
+                timeSpan.textContent = `最后保存 ${timeStr}`;
+            } catch(e) {
+                timeSpan.textContent = `最后保存 —`;
+            }
+        } else if (timeSpan) {
+            timeSpan.textContent = `最后保存 —`;
+        }
+    }
+    function csvEscape(str) { if (str === undefined || str === null) return ''; const s = String(str); if (s.includes(',') || s.includes('"') || s.includes('\n')) return '"' + s.replace(/"/g, '""') + '"'; return s; }
+    function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g,function(m){if(m==='&')return'&amp;';if(m==='<')return'&lt;';if(m==='>')return'&gt;';return m;}); }
+    function updateAllSummaries() { document.querySelectorAll('.point-card').forEach(card => updateCardSummary(card)); }
+
+    window.onload = () => {
+        loadAllData();
+        initGlobalCard();
+
+        // 初始化数据概览卡片的折叠/展开功能
+        const overviewToggle = document.querySelector('.overview-toggle');
+        const overviewContent = document.querySelector('.overview-content');
+        const overviewSummary = document.querySelector('.overview-summary');
+
+        if (overviewToggle && overviewContent && overviewSummary) {
+            overviewToggle.addEventListener('click', () => {
+                const isCurrentlyCollapsed = overviewContent.style.display === 'none';
+                if (isCurrentlyCollapsed) {
+                    overviewContent.style.display = 'block';
+                    overviewSummary.style.display = 'none';
+                    overviewToggle.textContent = '▲';
+                } else {
+                    overviewContent.style.display = 'none';
+                    overviewSummary.style.display = 'flex';
+                    overviewToggle.textContent = '▼';
+                }
+            });
+
+            overviewSummary.addEventListener('click', () => {
+                if (overviewContent.style.display === 'none') {
+                    overviewContent.style.display = 'block';
+                    overviewSummary.style.display = 'none';
+                    overviewToggle.textContent = '▲';
+                }
+            });
+        }
+
+        document.getElementById('addPointBtn').addEventListener('click', addNewPoint);
+        document.getElementById('exportBtn').addEventListener('click', exportCSV);
+        document.getElementById('backupBtn').addEventListener('click', backupData);
+        document.getElementById('restoreBtn').addEventListener('click', restoreData);
+        document.getElementById('clearAllBtn').addEventListener('click', clearAll);
+        document.getElementById('globalRemark').addEventListener('change', saveAllData);
+        document.getElementById('setGridStartNowBtn').addEventListener('click', () => {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2,'0');
+            const minutes = now.getMinutes().toString().padStart(2,'0');
+            document.getElementById('gridStartTime').value = `${hours}:${minutes}`;
+            saveAllData();
+        });
+        ['gridCode','surveyDate','gridStartTime','surveyor','recorder'].forEach(id => {
+            document.getElementById(id).addEventListener('change', () => { saveAllData(); updateAllSummaries(); });
+        });
+        try { localStorage.setItem('test','1'); localStorage.removeItem('test'); } catch(e) { document.getElementById('storageWarning').style.display = 'flex'; }
+
+        // 为数据概览添加点击事件
+        const totalSpeciesElement = document.getElementById('totalBirdSpeciesCount');
+        const totalCountElement = document.getElementById('totalBirdCount');
+
+        if (totalSpeciesElement) {
+            totalSpeciesElement.classList.add('clickable-stat');
+            totalSpeciesElement.style.cursor = 'pointer';
+            totalSpeciesElement.title = '点击查看鸟种详细汇总';
+            totalSpeciesElement.addEventListener('click', showBirdDetailModal);
+        }
+
+        if (totalCountElement) {
+            totalCountElement.classList.add('clickable-stat');
+            totalCountElement.style.cursor = 'pointer';
+            totalCountElement.title = '点击查看鸟种详细汇总';
+            totalCountElement.addEventListener('click', showBirdDetailModal);
+        }
+
+        // 添加按钮事件：从概览卡片查看鸟种详情
+        const viewDetailBtn = document.getElementById('viewBirdDetailFromOverviewBtn');
+        if (viewDetailBtn) {
+            viewDetailBtn.addEventListener('click', () => {
+                showBirdDetailModal();
+            });
+        }
+
+        // 模态框关闭按钮事件
+        const closeModalBtn = document.getElementById('closeBirdDetailModal');
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', closeBirdDetailModal);
+        }
+
+        // 点击模态框外部关闭
+        const modalOverlay = document.getElementById('birdDetailModal');
+        if (modalOverlay) {
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    closeBirdDetailModal();
+                }
+            });
+        }
+
+        // 按ESC键关闭模态框
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('birdDetailModal');
+                if (modal && modal.classList.contains('show')) {
+                    closeBirdDetailModal();
+                }
+            }
+        });
+
+        // 初始更新数据概览
+        setTimeout(updateOverviewStatistics, 100);
+    };
+</script>
+</body>
+</html>
