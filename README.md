@@ -28,6 +28,11 @@
 
 🌐 **在线体验地址**：[https://cbbssz.netlify.app/](https://cbbssz.netlify.app/)
 
+> ⚠️ **临时访问通知**  
+> 主地址 `cbbssz.netlify.app` 因部署额度用尽暂时无法访问，预计5月1日恢复。  
+> 在此期间，请使用备用地址：👉 **[https://xiahibb.github.io/shenzhen-bird-survey/](https://xiahibb.github.io/shenzhen-bird-survey/)**  
+> 功能完全一致，数据仍保存在您手机中。感谢支持！
+
 ## 许可证
 
 本项目采用 [知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议 (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/) 进行许可。
