@@ -1,5 +1,11 @@
+**中文** | [English](./README_EN.md)
+---
+# 深圳繁殖鸟类调查 · 野外速记工具
+...
+
 # shenzhen-bird-survey
 🐦 深圳繁殖鸟类调查 · 野外速记工具 · 倒计时 · 拼音搜鸟 · 一键导出
+
 ![GitHub last commit](https://img.shields.io/github/last-commit/xiahibb/shenzhen-bird-survey)
 ![GitHub repo size](https://img.shields.io/github/repo-size/xiahibb/shenzhen-bird-survey)
 ![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-green)
